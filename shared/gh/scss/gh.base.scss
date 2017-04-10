@@ -1,0 +1,606 @@
+/*!
+ * Copyright 2015 Digital Services, University of Cambridge Licensed
+ * under the Educational Community License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
+ *
+ *     http://opensource.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
+
+/***********/
+/* IMPORTS */
+/***********/
+
+@import 'gh.mixins';
+
+
+/***************/
+/* BASE STYLES */
+/***************/
+
+.gh-chosen-no-search + .chosen-container .chosen-search {
+    height: 0;
+    overflow: hidden;
+}
+
+html, html a {
+    -webkit-font-smoothing: antialiased;
+    text-shadow: 1px 1px 1px rgba(0,0,0,0.004);
+}
+
+body {
+    font-family: 'Myriad Pro', helvetica, sans-serif;
+    font-size: 15px;
+    font-weight: 200;
+    min-height: 800px;
+}
+
+h1, h2, h3, h4, h5 {
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    font-size: 40px;
+    font-weight: 300;
+}
+
+h2 {
+    font-size: 17px;
+    font-weight: 400;
+}
+
+h3 {
+    font-size: 14px;
+    font-weight: 400;
+}
+
+select.form-control {
+    height: 45px;
+    padding: 0 0 0 2px;
+}
+
+label {
+    font-weight: 600;
+}
+
+input,
+textarea {
+    border-style: solid;
+    border-width: 1px;
+}
+
+input[disabled],
+select[disabled],
+.as-selections.gh-disabled {
+    border-style: solid;
+    border-width: 1px;
+}
+
+.gh-disabled {
+    cursor: not-allowed;
+}
+
+.gh-focus {
+    outline: -webkit-focus-ring-color auto 5px;
+}
+
+/* When the page loads and it's laying itself out, animations shouldn't occur.
+   The class gets removed after the page has been set up */
+.gh-preload * {
+    @include transition(none !important);
+}
+
+
+/**************/
+/* VALIDATION */
+/**************/
+
+.has-error {
+
+    label {
+        font-weight: 600;
+    }
+
+    input.form-control {
+        border-style: solid !important;
+        border-width: 1px !important;
+    }
+
+    .form-control::-moz-placeholder {
+        font-weight: 400;
+    }
+
+    .form-control:-ms-input-placeholder {
+        font-weight: 400;
+    }
+
+    .form-control::-webkit-input-placeholder {
+        font-weight: 400;
+    }
+}
+
+
+/**********/
+/* LAYOUT */
+/**********/
+
+#gh-main {
+    overflow: hidden;
+    padding-bottom: 30px;
+}
+
+.lt-ie9 #gh-main {
+    padding: 25px;
+}
+
+.gh-academic-year-select {
+    display: table-cell;
+    font-size: 18px;
+    font-weight: 100;
+    height: 100px;
+    line-height: 40px;
+    padding-left: 45px !important;
+    vertical-align: middle;
+}
+
+footer .gh-uni-logo,
+#gh-page-container #gh-left-container .gh-uni-logo {
+    height: 115px;
+}
+
+footer .gh-uni-logo img,
+#gh-page-container #gh-left-container .gh-uni-logo img {
+    @include box-sizing(content-box);
+    padding: 39px 46px 36px 40px;
+    @include transition(padding .3s);
+    width: 196px;
+}
+
+/* Main page container */
+
+#gh-page-container.gh-minimised #gh-left-container,
+#gh-page-container #gh-left-container.gh-collapsed {
+    overflow: hidden !important;
+}
+
+#gh-page-container {
+    min-width: 1280px;
+
+    &.gh-minimised #gh-left-container {
+        height: 215px;
+    }
+
+    #gh-left-container {
+        float: left;
+        overflow: visible;
+        padding: 0;
+        position: relative;
+        @include transition(width .3s);
+        width: 320px;
+        z-index: 3;
+
+        #gh-content-description p {
+            margin: 0;
+            padding: 32px 39px 30px;
+            @include transition(opacity .3s);
+        }
+
+        #gh-content-description {
+            height: 100px;
+            width: 320px;
+        }
+
+        #gh-meta-container {
+            position: absolute;
+            z-index: 3;
+        }
+
+        #gh-modules-container,
+        #gh-navigation-container {
+            min-height: 100%;
+            padding-top: 215px;
+        }
+
+        #gh-modules-container {
+
+            #gh-result-summary {
+                border-bottom-style: solid;
+                border-bottom-width: 1px;
+                height: 44px;
+                overflow: hidden;
+
+                button:not(.gh-collapse-modules) {
+                    @include transition(opacity .3s);
+                }
+
+                p {
+                    margin: 0;
+                    padding: 13px 40px;
+                    @include transition(opacity .3s);
+                    width: 300px;
+                }
+
+                .gh-collapse-modules {
+                    position: relative;
+                    width: 50px;
+                    z-index: 1;
+
+                    i {
+                        font-size: 26px;
+                        font-weight: 500;
+                    }
+                }
+            }
+
+            #gh-modules-list-container {
+                @include opacity(1);
+                @include transition(opacity .3s);
+
+                ul {
+                    @include transition(opacity .3s);
+                }
+            }
+
+            #gh-modules-list {
+                width: 320px;
+            }
+        }
+    }
+
+    /* Main page right hand side (content) container */
+
+    #gh-header {
+        height: 115px;
+    }
+
+    #gh-right-container {
+        @include background-clip(content-box);
+        min-height: calc(100% - 217px);
+        min-width: 992px;
+        padding-left: 320px;
+        @include transition(padding-left .3s);
+        width: 100%;
+
+        #gh-header-container {
+            position: relative;
+            right: 0;
+            z-index: 3;
+        }
+
+        #gh-subheader {
+            height: 100px;
+            position: relative;
+            z-index: 10;
+        }
+    }
+}
+
+.gh-tripos-help {
+    display: table-cell;
+    font-size: 20px;
+    font-weight: 100;
+    height: 415px;
+    padding: 45px;
+    vertical-align: middle;
+}
+
+@media (max-width: 767px) {
+
+    #gh-page-container #gh-right-container #gh-header-container .form-inline {
+
+        .form-group {
+            display: inline-block;
+            margin-bottom: 0;
+            vertical-align: middle;
+        }
+
+        .input-group {
+            display: inline-table;
+            vertical-align: middle;
+        }
+
+        .form-control {
+            display: inline-block;
+            width: auto;
+            vertical-align: middle;
+        }
+    }
+}
+
+/* Page footer */
+
+footer {
+    min-width: 1280px;
+    position: relative;
+    z-index: 2;
+
+    .gh-uni-logo img {
+        padding: 30px 30px 30px 41px;
+    }
+
+    #footer-help-logo {
+        width: 320px;
+    }
+
+    &#footer-copyright p {
+        font-size: 13px;
+        font-weight: 400;
+        margin: 0;
+        padding: 20px 0 20px 336px;
+    }
+
+    h3 {
+        font-weight: 600;
+        margin: 30px 0 20px;
+    }
+
+    ul {
+        font-weight: 200;
+        list-style-type: none;
+        margin: 0 0 25px;
+        padding: 0;
+
+        li {
+            margin: 3px 0;
+        }
+    }
+}
+
+
+/********************/
+/* COLLAPSE MODULES */
+/********************/
+
+.fa-angle-double-right,
+.gh-collapsed .fa-angle-double-left {
+    display: none;
+}
+
+.fa-angle-double-left,
+.gh-collapsed .fa-angle-double-right {
+    display: block;
+}
+
+.gh-collapsed {
+
+    /* Content containers */
+
+    #gh-page-container {
+
+        #gh-left-container {
+            height: 100%;
+            position: fixed;
+            width: 50px !important;
+
+            #gh-meta-container,
+            #gh-content-description {
+                width: 50px;
+                @include transition(width .3s);
+            }
+
+            #gh-meta-container #gh-content-description p {
+                display: none;
+            }
+
+            #gh-modules-container {
+
+                #gh-modules-list-container {
+                    @include opacity(0);
+                }
+
+                #gh-result-summary {
+                    border-bottom: none !important;
+
+                    button:not(.gh-collapse-modules),
+                    p {
+                        opacity: 0;
+                    }
+                }
+            }
+
+            .gh-uni-logo img {
+                padding: 39px 46px 36px 8px;
+            }
+        }
+
+        #gh-right-container {
+            padding-left: 50px;
+            position: absolute;
+
+            #gh-toolbar-container {
+                width: 100%;
+            }
+        }
+    }
+
+    main {
+        margin-bottom: 230px;
+    }
+
+    /* Footer */
+
+    footer {
+        bottom: 58px;
+        position: fixed;
+        width: 100%;
+        z-index: 9999;
+
+        + footer {
+            bottom: 0;
+        }
+    }
+}
+
+.gh-collapsed-finished {
+
+    main {
+        margin-top: 215px;
+    }
+
+    #gh-page-container #gh-right-container #gh-header-container {
+        left: 50px;
+        position: fixed;
+    }
+
+    #gh-empty {
+        margin-left: 0;
+        margin-top: 250px;
+    }
+}
+
+
+/***********/
+/* BUTTONS */
+/***********/
+
+.btn {
+    font-size: 15px;
+    font-weight: 200;
+    padding: 10px 20px 8px 18px;
+}
+
+.btn-default {
+    font-weight: 700;
+}
+
+.btn-default.gh-btn-secondary {
+    font-weight: 400;
+}
+
+
+/**********/
+/* MODALS */
+/**********/
+
+.modal-backdrop.in {
+    @include opacity(.75);
+}
+
+.modal {
+    z-index: 10000;
+
+    .modal-content {
+        border-radius: 0;
+
+        form label {
+            font-weight: 200;
+        }
+
+        .modal-header {
+            padding: 25px;
+            position: relative;
+
+            button[data-dismiss="modal"] {
+                font-size: 32px;
+                font-weight: bold;
+                padding: 0 5px;
+            }
+
+            .close {
+                font-weight: 200;
+                @include opacity(.5);
+                position: absolute;
+                right: 20px;
+                text-shadow: none;
+                top: 50%;
+                transform: translateY(-50%);
+
+                &:hover {
+                    font-weight: 200;
+                    @include opacity(1);
+                }
+            }
+
+            .modal-title {
+                font-size: 22px;
+                font-weight: 200;
+            }
+        }
+
+        .modal-body {
+            padding: 40px 25px 25px;
+        }
+
+        .modal-footer {
+            border-top: 0;
+            padding: 0 25px 15px 15px;
+        }
+    }
+}
+
+
+/*****************/
+/* NOTIFICATIONS */
+/*****************/
+
+/* @see http://getbootstrap.com/components/#alerts
+ * @see http://nijikokun.github.io/bootstrap-notify */
+
+.alert {
+    padding: 8px 35px 8px 14px;
+
+    h4 {
+        margin-bottom: 0;
+    }
+}
+
+.notifications {
+
+    > .alert {
+        @include border-radius(0);
+        border-top: none;
+        padding: 18px 20px 15px 20px;
+    }
+
+    &.bottom-left {
+        bottom: 28px;
+        left: 40px;
+        position: fixed;
+        width: 30%;
+        z-index: 99999999;
+
+        > .alert {
+            bottom: 0;
+            left: -600px;
+            margin: 0 auto 12px;
+            max-width: 600px;
+            @include opacity(0);
+            position: relative;
+            text-align: left;
+            @include transition(left .3s, opacity .3s, bottom .3s);
+            width: 100%;
+            word-wrap: break-word;
+
+            &.gh-notification-in {
+                left: 10px !important;
+                opacity: 1 !important;
+            }
+
+            &.gh-notification-fade {
+                bottom: -200px !important;
+                opacity: 0 !important;
+            }
+
+            p {
+                margin: 12px 0 0;
+                width: 93%;
+            }
+
+            .close {
+                @include opacity(.5);
+                position: absolute;
+                right: 20px;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+        }
+    }
+}

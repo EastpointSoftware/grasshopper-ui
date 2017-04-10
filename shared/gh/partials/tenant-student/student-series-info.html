@@ -1,0 +1,58 @@
+<%
+    var numEvents = 0;
+    _.each(_.map(data.terms, function(term) {
+        if (term.events) {
+            return term.events.length;
+        }
+    }), function(termEvents) {
+        numEvents += termEvents;
+    });
+%>
+
+<!-- Series -->
+<div class="gh-series-info-list">
+    <% if (numEvents) { %>
+        <% _.each(data.terms, function(term) { %>
+            <% if (term.events && term.events.length) { %>
+                <div class="gh-series-info-list-term">
+                    <!-- Term -->
+                    <strong><%- term.label %></strong>
+
+                    <!-- Event -->
+                    <% _.each(term.events, function(event) { %>
+                        <div class="gh-series-info-list-event">
+
+                            <!-- Event date -->
+                            <div class="gh-series-info-list-event-date">
+                                <% var randomId = data.utils.generateRandomString(); %>
+                                <div id="<%- randomId %>">
+                                    <% _.partial('admin-edit-date-field', {'data': event, 'utils': data.utils}, true, '#' + randomId) %>
+                                </div>
+                            </div>
+
+                            <!-- Event type -->
+                            <div class="gh-event-type gh-series-info-list-event-type" data-type="<%- event.type %>" data-first="<% if (event.type) { %><%- event.type.substr(0,1) %><% } %>" title="<%- event.type %>"><% if (event.type) { %><span style="visibility: hidden;"><%- event.type %></span><% } %></div>
+
+                            <!-- Event title -->
+                            <div class="gh-series-info-list-event-title"><%= event.displayName %></div>
+                        </div>
+                    <%}); %>
+                </div>
+            <% } %>
+        <% }); %>
+    <% } else { %>
+        <div class="gh-series-info-list-no-events">No events</div>
+    <% } %>
+</div>
+
+<% if (numEvents) { %>
+    <!-- Locations -->
+    <div class="gh-series-info-location">
+        <% if (data.locations && data.locations.length) { %><%- data.locations.join(', ') %><% } else { %>Location not known<% } %>
+    </div>
+
+    <!-- Organisers -->
+    <div class="gh-series-info-organiser">
+        <% if (data.organisers && data.organisers.length) { %><%- data.organisers.join(', ') %><% } else { %>Lecturer not known<% } %>
+    </div>
+<% } %>

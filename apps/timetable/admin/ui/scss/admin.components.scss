@@ -1,0 +1,255 @@
+/*!
+ * Copyright 2015 Digital Services, University of Cambridge Licensed
+ * under the Educational Community License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
+ *
+ *     http://opensource.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
+
+/***********/
+/* IMPORTS */
+/***********/
+
+@import 'gh.mixins';
+
+@import 'components/gh.subheader.scss';
+@import 'components/gh.video.scss';
+@import 'components/gh.editable.parts.scss';
+@import 'components/gh.batch.edit.scss';
+
+@import 'components/gh.form.login.scss';
+@import 'components/gh.form.module.new.scss';
+@import 'components/gh.form.module.rename.scss';
+@import 'components/gh.form.series.new.scss';
+@import 'components/gh.manage.orgunits.scss';
+@import 'components/gh.modal.module.delete.scss';
+@import 'components/gh.modal.series.delete.scss';
+@import 'components/gh.modal.series.borrow.scss';
+@import 'components/gh.modal.visibility.scss';
+@import 'components/gh.popover.datepicker.scss';
+
+
+/**********/
+/* LAYOUT */
+/**********/
+
+#gh-main {
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+#gh-help {
+    font-weight: 400;
+    padding: 35px 50px;
+}
+
+
+/***********/
+/* TOOLBAR */
+/***********/
+
+#gh-toolbar-container {
+    height: auto;
+}
+
+
+/***********/
+/* BUTTONS */
+/***********/
+
+.btn-link {
+    font-weight: 400;
+}
+
+
+/***********/
+/* MODULES */
+/***********/
+
+.list-group .list-group-item {
+
+    .list-group .list-group-item {
+        margin-left: 50px;
+
+        .gh-list-action {
+            padding-right: 5px;
+            width: 40px;
+
+            i.fa-link {
+                padding: 5px;
+            }
+        }
+
+        .gh-list-description {
+            padding: 12px 5px 12px 20px;
+            width: 230px;
+        }
+    }
+
+    .gh-list-group-item-container .gh-series-select {
+        border: none;
+        padding: 0;
+        width: 100%;
+    }
+
+    .gh-list-group-series-actions {
+        padding: 12px 0 12px 49px;
+    }
+}
+
+#gh-page-container #gh-left-container #gh-modules-container #gh-result-summary .gh-new-module {
+    margin: 3px 0 0 27px;
+}
+
+
+/*****************/
+/* BORROWED LIST */
+/*****************/
+
+.gh-borrowed-list-description {
+    margin: 20px 0 5px;
+}
+
+ul.gh-borrowed-list {
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-top-style: solid;
+    border-top-width: 1px;
+    margin-bottom: 20px;
+    max-height: 200px;
+    overflow: auto;
+    padding: 0;
+
+    li {
+        border-bottom-style: solid;
+        border-bottom-width: 1px;
+        list-style: none;
+        padding: 12px;
+
+        &:last-child {
+            border-bottom: none;
+        }
+
+        p {
+            margin: 0;
+        }
+    }
+}
+
+
+/***************/
+/* AUTOSUGGEST */
+/***************/
+
+@mixin setAutoSuggestFont() {
+    font-family: 'Myriad Pro', helvetica, sans-serif;
+    width: auto !important;
+}
+
+ul.as-selections {
+    border-style: solid;
+    border-width: 1px;
+    border-top-width: 1px !important;
+    height: auto !important;
+    overflow: visible !important;
+    padding: 0 !important;
+
+    &::after {
+        clear: both;
+        content: '';
+        display: block;
+    }
+
+    li.as-original {
+        border-top-style: solid;
+        border-top-width: 1px;
+        margin: 0 !important;
+        width: 100%;
+
+        input {
+            width: 100%;
+        }
+    }
+
+    li.as-selection-item,
+    li.as-selection-item.blur {
+        border: none !important;
+        @include border-radius(3px);
+        @include box-shadow(none !important);
+        @include setAutoSuggestFont();
+        font-size: 14px;
+        font-weight: normal;
+        line-height: 1.3em;
+        margin: 0 3px 3px 3px;
+        padding: 3px 5px;
+        text-shadow: none;
+        white-space: initial;
+        word-break: break-all;
+
+        &:first-child {
+            margin-top: 3px;
+        }
+    }
+}
+
+#gh-batch-edit-header ul.as-selections li.as-original input[type="text"] {
+    border: none !important;
+    font-size: 15px !important;
+    height: 31px !important;
+    padding: 0 10px;
+    width: 100% !important;
+}
+
+.gh-batch-event-collapsed ul.as-selections li.as-selection-item {
+    display: none;
+}
+
+.gh-batch-event-collapsed ul.as-selections li.as-original input,
+ul.as-selections li.as-original:first-child input {
+    border-top: none !important;
+    display: block;
+}
+
+.as-results {
+    font-weight: 200;
+    padding: 0 !important;
+    position: absolute;
+
+    ul.as-list {
+        @include border-radius(0 0 4px 4px);
+        border-style: solid;
+        border-top: none;
+        border-width: 1px;
+        @include setAutoSuggestFont();
+        margin: 0;
+        padding: 3px;
+
+        .as-message {
+            border: none !important;
+        }
+
+        .as-result-item,
+        .as-result-item.active {
+            border: none;
+            @include border-radius(0);
+            font-size: 14px;
+            padding: 5px 3px;
+            text-shadow: none;
+            word-wrap: break-word;
+
+            em {
+                font-weight: bold;
+                padding: 0;
+                text-decoration: underline;
+            }
+        }
+    }
+}

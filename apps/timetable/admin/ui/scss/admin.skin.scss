@@ -1,0 +1,646 @@
+/*!
+ * Copyright 2015 Digital Services, University of Cambridge Licensed
+ * under the Educational Community License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
+ *
+ *     http://opensource.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
+
+/***********/
+/* IMPORTS */
+/***********/
+
+@import 'gh.mixins';
+
+
+/***********/
+/* COLOURS */
+/***********/
+
+$primary-colour: #412F5B;
+$secondary-colour: #62326E;
+$tertiary-colour: #913389;
+
+
+/*********/
+/* LOGIN */
+/*********/
+
+#gh-login-form label {
+    color: #CCC;
+}
+
+
+/***********/
+/* BUTTONS */
+/***********/
+
+.btn-default.gh-btn-primary {
+    background-color: #92308A;
+    border-color: #92308A;
+    color: #FFF;
+}
+
+.btn-default.gh-btn-secondary.gh-btn-reverse:hover,
+.btn-default.gh-btn-secondary.gh-btn-reverse:focus {
+    background-color: $secondary-colour;
+    border-color: $secondary-colour;
+}
+
+.btn-link,
+.btn-link:hover {
+    color: #171717;
+}
+
+
+/***********/
+/* POPOVER */
+/***********/
+
+.popover.gh-datepicker-popover {
+    background-color: #FFF;
+}
+
+
+/**********/
+/* CHOSEN */
+/**********/
+
+.chosen-container .chosen-results li.highlighted {
+    background-color: #92308A;
+}
+
+
+/**********/
+/* LAYOUT */
+/**********/
+
+#gh-page-container #gh-left-container #gh-result-summary {
+    background-color: #171717;
+    border-bottom-color: #171717;
+}
+
+.gh-show-video,
+.gh-show-video:hover,
+#gh-main-tripos .gh-video .gh-video-info,
+#gh-main-tripos .gh-video .gh-hide-video i,
+#gh-main-tripos > .gh-row-part > .gh-part p,
+#gh-main-tripos > .gh-row-part > .gh-part .gh-part-edit,
+#gh-main-tripos > .gh-row-part > .gh-part .gh-part-draft,
+.gh-visibility,
+.gh-visibility:hover {
+    color: #FFF;
+}
+
+#gh-main-tripos {
+
+    /* Video */
+
+    .gh-video {
+        background-image: url('/shared/gh/img/video.png');
+
+        &.isPlaying {
+            background-color: #000 !important;
+            background-image: none;
+        }
+
+        &:not(.isPlaying) video {
+            display: none;
+        }
+
+        .gh-play-video {
+            background-color: #FFF;
+        }
+
+        .gh-hide-video {
+            color: #FFF;
+
+            &:hover {
+                color: #AAA;
+            }
+        }
+    }
+
+    /* Editable parts */
+
+    > .gh-row-part > .gh-part,
+    > .gh-row-part:nth-child(even) > .gh-part:nth-child(even) {
+        background-color: $secondary-colour;
+    }
+
+    > .gh-row-part > .gh-part:nth-child(even),
+    > .gh-row-part:nth-child(even) > .gh-part {
+        background-color: $tertiary-colour;
+    }
+
+    > .gh-row-part > .gh-part {
+
+        p.gh-part-editing {
+            border: 1px solid #FFF;
+        }
+
+        .gh-part-edit {
+            background-color: #171717;
+        }
+    }
+}
+
+
+/* Primary toolbar */
+
+.gh-toolbar-primary {
+    background-color: $secondary-colour;
+}
+
+
+/**************/
+/* LIST GROUP */
+/**************/
+
+.list-group .list-group-item {
+    background-color: $secondary-colour;
+
+    &.gh-list-group-item-open {
+        background-color: #42305B;
+
+        .list-group .list-group-item {
+            background-color: #42305B !important;
+            border-bottom-color: #594674 !important;
+        }
+    }
+
+    .gh-list-action {
+        background-color: transparent !important;
+    }
+
+    .list-group .list-group-item {
+
+        &:hover .gh-list-description {
+            background-color: transparent;
+        }
+
+        &:first-child {
+            border-color: #594674;
+        }
+    }
+
+    .gh-list-group-item-container:hover {
+        background-color: $secondary-colour;
+    }
+}
+
+
+/*********/
+/* MODAL */
+/*********/
+
+.modal-header {
+    background-color: $secondary-colour;
+
+    &.gh-warning {
+        background-color: #D92751;
+    }
+
+    button,
+    .modal-title {
+        color: #FFF;
+    }
+}
+
+
+/***********/
+/* MODULES */
+/***********/
+
+.list-group .list-group-item {
+
+    .gh-list-group-item-container.gh-series-active {
+        background-color: #FFF;
+    }
+
+    .gh-series-active .gh-series-select p,
+    .gh-series-active .gh-series-select .gh-list-action i {
+        color: #171717;
+    }
+}
+
+
+/**********************/
+/* NEW SERIES/MODULES */
+/**********************/
+
+#gh-new-module-form .form-group label,
+#gh-new-series-form .form-group label {
+    color: #171717;
+}
+
+
+/************************/
+/* DELETE SERIES/MODULE */
+/************************/
+
+#gh-delete-series-modal small {
+    color: #6C6C6C;
+}
+
+
+/*****************/
+/* BORROWED LIST */
+/*****************/
+
+ul.gh-borrowed-list {
+    border-bottom-color: #CCC;
+    border-top-color: #CCC;
+
+    li {
+        border-bottom-color: #CCC;
+
+        p:first-child {
+            color: #6C6C6C;
+        }
+    }
+}
+
+
+/*****************/
+/* BATCH EDITING */
+/*****************/
+
+#gh-batch-edit-header {
+
+    &.gh-batch-edit-time-open #gh-batch-edit-time {
+        background-color: #F4F4F4;
+        color: #171717;
+    }
+
+    #gh-batch-edit-header-disabled-overlay {
+        background-color: #DDD;
+
+        p i {
+            color: $secondary-colour;
+        }
+    }
+
+    button:not(:disabled),
+    input:not(:disabled)[type="text"],
+    select:not(:disabled),
+    ul.as-selections:not(.gh-disabled) {
+        border-color: #171717 !important;
+    }
+
+    input:not(:disabled)[type="text"]::-webkit-input-placeholder {
+        color: #555;
+    }
+
+    input:not(:disabled)[type="text"]::-moz-placeholder {
+        color: #555;
+    }
+
+    input:not(:disabled)[type="text"]:-ms-input-placeholder {
+        color: #555;
+    }
+}
+
+#gh-batch-edit-container {
+    background-color: #FFF;
+
+    &.gh-sticky-header {
+        @include box-shadow(0 0 15px #666);
+    }
+
+    .gh-jeditable-series-title:hover {
+        background-color: #F5F5F5 !important;
+    }
+
+    .gh-series-title-borrowed-info {
+
+        span {
+            color: #555;
+        }
+
+        a {
+            color: #171717;
+        }
+    }
+
+    .table > tbody > tr {
+
+        &.info td {
+            background-color: #ECF5F9;
+        }
+
+        &.gh-not-eligible > .gh-event-date {
+            background-color: #E7E7E7;
+        }
+    }
+}
+
+.gh-batch-edit-actions-container {
+    background: #FFF;
+    border-top-color: #BEBEBE;
+    @include box-shadow(0 0 15px #666);
+
+    #gh-batch-edit-change-summary {
+        color: #6B6B6B;
+    }
+
+    #gh-batch-edit-cancel {
+        color: #171717;
+    }
+}
+
+.gh-batch-edit-events-container .gh-jeditable-form input {
+    background-color: #FFF;
+    border-left-color: #DDD;
+    border-right-color: #DDD;
+}
+
+#gh-batch-edit-container #gh-batch-edit-date-container {
+    background-color: #F4F4F4;
+}
+
+#gh-batch-edit-container #gh-batch-edit-date-container #gh-batch-edit-date-picker-container .checkbox {
+    background-color: #FFF;
+}
+
+#gh-batch-edit-container #gh-batch-edit-date-container #gh-batch-edit-date-picker-container .checkbox.gh-batch-edit-date-picker-selected label i {
+    color: $secondary-colour;
+}
+
+#gh-batch-edit-container #gh-batch-edit-date-container #gh-batch-edit-date-picker-container .checkbox.gh-batch-edit-date-picker-selected {
+    border-color: $secondary-colour;
+}
+
+#gh-batch-edit-container .gh-batch-edit-time-picker .gh-batch-edit-day-picker,
+#gh-batch-edit-container .gh-batch-edit-time-picker select.form-control {
+    color: #171717;
+}
+
+#gh-batch-edit-term-container .gh-batch-edit-events-container .table > tbody > tr > td.gh-event-type:empty:hover::before,
+#gh-batch-edit-term-container .gh-batch-edit-events-container .table > tbody > tr > td.gh-event-location:empty:hover::before,
+#gh-batch-edit-term-container .gh-batch-edit-events-container .table > tbody > tr > td.gh-event-organisers[title]:empty:hover::before {
+    background-color: transparent;
+    color: #BEBEBE;
+}
+
+/* Terms */
+
+#gh-batch-edit-term-container .gh-batch-edit-events-container .table > tbody > tr.danger.gh-fade td,
+#gh-batch-edit-term-container .gh-batch-edit-events-container .table > tbody > tr.success.gh-fade td {
+    background-color: #FFF !important;
+}
+
+#gh-batch-edit-term-container .gh-batch-edit-events-container .gh-batch-edit-events-container-empty {
+    background-color: #F5F5F5;
+    color: #999;
+}
+
+tr.info .gh-event-delete button i {
+    color: #4D4D4D;
+}
+
+
+/*************/
+/* BORROWING */
+/*************/
+
+#gh-borrow-series-modal .list-group .list-group-item {
+
+    .gh-borrow-series-borrowed .gh-list-description {
+        background-color: #FFF;
+
+        p {
+            color: #171717;
+        }
+    }
+
+    .list-group .list-group-item .gh-list-description {
+        border-top-color: #171717;
+    }
+
+    i.fa-check {
+        color: #42305B;
+    }
+}
+
+
+/**************/
+/* EDIT DATES */
+/**************/
+
+
+#gh-edit-dates {
+
+    /* Navigation */
+
+    .ui-datepicker-header {
+
+        .ui-datepicker-prev,
+        .ui-datepicker-next {
+            color: #333;
+        }
+
+        .ui-datepicker-title {
+            color: #777;
+        }
+    }
+
+    /* Calendar */
+
+    .ui-datepicker-calendar {
+
+        th,
+        td {
+            border-color: #EEE;
+        }
+
+        th {
+            background-color: #EEE;
+            color: #777;
+        }
+
+        td {
+
+            a {
+                color: #222;
+            }
+
+            &.ui-datepicker-other-month,
+            &.ui-state-disabled {
+                background-color: #F3F3F3;
+
+                * {
+                    color: #CCC;
+                }
+            }
+
+            &.ui-datepicker-today {
+                background-color: #EFF4F2;
+            }
+
+            &.ui-datepicker-current-day {
+                background-color: #92308A;
+
+                * {
+                    color: #FFF;
+                }
+            }
+        }
+    }
+
+    /* Form */
+
+    #gh-edit-dates-form label {
+        color: #777;
+    }
+}
+
+
+/**************/
+/* VISIBILITY */
+/**************/
+
+#gh-visibility-modal #gh-visibility-form {
+
+    label {
+
+        .gh-visibility-icon-container {
+            background-color: #EEE;
+            border-color: #EEE;
+            color: #8D8D8D;
+        }
+
+        &.checked .gh-visibility-icon-container .visibility-type,
+        &.checked .gh-visibility-icon-container i.fa-eye-slash,
+        &.checked .gh-visibility-icon-container i.fa-eye,
+        &.checked small,
+        &:hover .gh-visibility-icon-container .visibility-type,
+        &:hover .gh-visibility-icon-container i.fa-eye-slash,
+        &:hover .gh-visibility-icon-container i.fa-eye,
+        &:hover small {
+            color: #333;
+        }
+
+        small p {
+            border-top-color: #BBB;
+        }
+
+        &.checked small p,
+        &:hover small p {
+            border-top-color: #333;
+        }
+
+        &:not(.checked) .gh-visibility-icon-container {
+            border-color: #EEE !important;
+        }
+
+        &.checked .gh-visibility-icon-container,
+        &:hover .gh-visibility-icon-container {
+            background-color: #FFF;
+            border-color: $secondary-colour !important;
+        }
+
+        .gh-visibility-icon-container i.fa-check {
+            color: $secondary-colour;
+        }
+    }
+
+    #gh-visibility-divider i.fa {
+        color: #939393;
+    }
+
+    #gh-visibility-publish-warning {
+        background-color: #E0E6E4;
+        color: #555;
+    }
+}
+
+
+/***************/
+/* AUTOSUGGEST */
+/***************/
+
+ul.as-selections {
+    @include box-shadow(none !important);
+    border-color: #CCC !important;
+
+    &.loading {
+        background-color: transparent !important;
+    }
+
+    li.as-original {
+        border-top-color: #DDD;
+
+        &:first-child input {
+            background-color: #FFF !important;
+        }
+
+        input {
+            background-color: #FFF !important;
+            border-top-color: #BEBEBE !important;
+        }
+    }
+
+    li.as-selection-item,
+    li.as-selection-item.blur {
+        background-color: #92308A !important;
+        background-image: none !important;
+        @include box-shadow(none !important);
+        color: #FFF !important;
+
+        .as-close {
+            text-shadow: none !important;
+            color: #FFF !important;
+        }
+    }
+}
+
+.as-results {
+
+    .as-list {
+        border-color: #CCC;
+        @include box-shadow(0 4px 5px rgba(0, 0, 0, 0.15) !important);
+
+        .as-result-item,
+        .as-result-item.active {
+            background-image: none;
+
+            em {
+                background-color: transparent;
+                color: #171717;
+            }
+        }
+
+        .as-result-item {
+            background-color: #FFF !important;
+            color: #171717 !important;
+
+            &.active {
+                background-color: #92308A !important;
+                color: #FFF !important;
+
+                em {
+                    color: #FFF !important;
+                }
+            }
+        }
+    }
+}
+
+
+/***********************/
+/* BORROW SERIES MODAL */
+/***********************/
+
+#gh-borrow-series-modal .list-group .list-group-item .gh-list-description:hover + .gh-list-action button {
+    background-color: $secondary-colour;
+    border-color: $secondary-colour;
+}

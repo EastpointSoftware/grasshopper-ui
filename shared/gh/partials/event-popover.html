@@ -1,0 +1,30 @@
+<div class="popover fade" role="tooltip" data-id="<%- data.id %>">
+    <h3 class="gh-popover-title">
+        <% if (data.type) { %>
+            <span class="gh-event-type" data-type="<%- data.type %>" data-first="<% if (data.type) { %><%- data.type.substr(0,1) %><% } %>"><span><%- data.type %></span></span>
+        <% } %>
+        <%- data.displayName %>
+    </h3>
+    <p class="gh-popover-time"><%- data.start.format('dddd h:mma') %> - <%- data.end.format('h:mma') %></p>
+    <p class="gh-popover-location"><%- data.location %></p>
+    <p class="gh-popover-organiser">
+        <%- _.chain(data.organisers).map(function(organiser) { return organiser.displayName || organiser; }).value().join(', ') %>
+    </p>
+    <%
+        if (data.context) {
+            var belongsTo = '';
+            if (data.context.course && data.context.course.displayName) {
+                belongsTo += data.context.course.displayName;
+            }
+            if (data.context.subject && data.context.subject.displayName) {
+                belongsTo += ', ' + data.context.subject.displayName;
+            }
+            if (data.context.part && data.context.part.displayName) {
+                belongsTo += ', ' + data.context.part.displayName;
+            }
+    %>
+        <small class="gh-popover-belongs">Belongs to <%- belongsTo %></small>
+    <%
+        }
+    %>
+</div>

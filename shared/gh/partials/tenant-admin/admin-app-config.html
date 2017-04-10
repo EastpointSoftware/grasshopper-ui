@@ -1,0 +1,11 @@
+<h1>Configuration</h1>
+
+<div class="panel-default">
+    <h3 class="panel-heading"><%- app.Tenant.displayName %> - <%- app.displayName %> - <%- app.host %></h3>
+    <div class="panel-body">
+        <% var randomId = gh.utils.generateRandomString(true); %>
+        <div id="<%- randomId %>">
+            <% _.partial('admin-config-form', {'data': {'config': config, 'app': app}}, null, '#' + randomId) %>
+        </div>
+    </div>
+</div>

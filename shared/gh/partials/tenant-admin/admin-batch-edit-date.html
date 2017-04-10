@@ -1,0 +1,53 @@
+<% var termNames = _.pluck(data.termsInUse, 'name'); %>
+
+<div id="gh-batch-edit-date-term-description">
+    <small>Selected terms</small>
+    <h2>
+    <% _.each(data.termsInUse, function(term) { %>
+        <%- term.label %><br/>
+    <% }); %>
+    </h2>
+</div>
+<div id="gh-batch-edit-date-picker-container" data-terms="<%- termNames.join(',') %>">
+    <!-- Show the number of weeks that are selected -->
+    <small><%- data.weeksInUse.length %> week<% if (data.weeksInUse.length !== 1) { %>s<% } %> in selection</small>
+    <div id="gh-batch-edit-date-picker">
+        <% var totalWeeks = data.numberOfWeeks %>
+        <!-- Keep rendering new weeks until the amount of weeks left to render is 0 -->
+        <% while (data.numberOfWeeks) { %>
+            <% data.numberOfWeeks--; %>
+            <% var weekNumber = totalWeeks - data.numberOfWeeks %>
+            <!-- Determine if the week should be checked or not -->
+            <% var weekUsed = _.indexOf(data.weeksInUse, weekNumber) !== -1 %>
+            <div class="checkbox <% if (weekUsed) { %>gh-batch-edit-date-picker-selected<% } %>">
+                <label>
+                    <input type="checkbox" value="<%- weekNumber %>" <% if (weekUsed) { %>checked<% } %>>W<%- weekNumber %> <i class="fa fa-square-o"></i><i class="fa fa-check-square-o"></i>
+                </label>
+            </div>
+        <% } %>
+        <% var weekUsed = _.indexOf(data.weeksInUse, 0) !== -1 %>
+        <div class="checkbox <% if (weekUsed) { %>gh-batch-edit-date-picker-selected<% } else { %> hide<% } %>">
+            <label>
+                <input type="checkbox" value="0" <% if (weekUsed) { %>checked<% } %>>OT <i class="fa fa-square-o"></i><i class="fa fa-check-square-o"></i>
+            </label>
+        </div>
+    </div>
+
+    <div id="gh-batch-edit-day-picker-container">
+        <% _.each(data.daysInUse, function(dayInUse, dayIndex) { %>
+            <% data.dayInUse = dayInUse %>
+            <% data.dayIndex = dayIndex %>
+
+            <% var randomId = data.gh.utils.generateRandomString(); %>
+            <div id="<%- randomId %>">
+                <% _.partial('admin-batch-edit-time-picker', {'data': _.extend({}, data)}, null, '#' + randomId) %>
+            </div>
+        <% }); %>
+        <button type="button" class="btn btn-default gh-btn-secondary gh-batch-edit-date-add-day"><i class="fa fa-plus-square"></i> Add another day</button>
+    </div>
+
+    <!-- Show progress indication when events are being processed -->
+    <div class="gh-batch-edit-date-processing" style="display: none;">
+        <i class="fa fa-spinner fa-spin"></i> <small>Processing events <span class="gh-batch-edit-date-processing-total"></span> complete</small>
+    </div>
+</div>

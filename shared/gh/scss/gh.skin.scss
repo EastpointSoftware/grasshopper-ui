@@ -1,0 +1,997 @@
+/*!
+ * Copyright 2015 Digital Services, University of Cambridge Licensed
+ * under the Educational Community License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
+ *
+ *     http://opensource.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an "AS IS"
+ * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing
+ * permissions and limitations under the License.
+ */
+
+
+/***********/
+/* IMPORTS */
+/***********/
+
+@import 'gh.mixins';
+
+
+/***********/
+/* COLOURS */
+/***********/
+
+$primary-colour: #07525D;
+$secondary-colour: #127077;
+$tertiary-colour: #3C858E;
+
+$calendar-today-background-colour: #EFF4F2;
+$calendar-event-background-colour: #E7F8F0;
+$calendar-event-border-colour: #198289;
+
+$agenda-term-border-colour: #D8E0DC;
+
+$notification-alert-text-colour: #313131;
+$notification-alert-success-background-colour: #EDDF7E;
+$notification-alert-success-border-colour: #EDDF7E;
+$notification-alert-error-background-colour: #D92751;
+$notification-alert-error-border-colour: #D92751;
+
+$validation-error-background-colour: #FFC8C7;
+$validation-error-border-colour: #A94442;
+$validation-error-text-colour: #A94442;
+
+
+/***************/
+/* BASE STYLES */
+/***************/
+
+h1, h2, h3, h4, h5 {
+    color: #171717;
+}
+
+input,
+textarea {
+    border-color: #CCC;
+    color: #171717 !important;
+}
+
+input[disabled],
+select[disabled],
+.as-selections.gh-disabled {
+    border-color: #EEE !important;
+}
+
+#gh-page-container #gh-subheader {
+
+    h1, h2, h3, h4, h5 {
+        color: #FFF;
+    }
+}
+
+a,
+.btn-link {
+    color: $secondary-colour;
+}
+
+.btn-link {
+
+    &:hover,
+    &:hover i,
+    &:focus i {
+        color: #2A6496;
+    }
+}
+
+.gh-warning-text {
+    color: #D92751;
+}
+
+
+/**************/
+/* VALIDATION */
+/**************/
+
+.has-error {
+
+    label {
+        color: $validation-error-text-colour;
+    }
+
+    input.form-control {
+        background-color: $validation-error-background-colour;
+        border-color: $validation-error-border-colour !important;
+    }
+
+    .form-control::-moz-placeholder {
+        color: $validation-error-text-colour;
+    }
+
+    .form-control:-ms-input-placeholder {
+        color: $validation-error-text-colour;
+    }
+
+    .form-control::-webkit-input-placeholder {
+        color: $validation-error-text-colour;
+    }
+}
+
+
+/**********/
+/* LAYOUT */
+/**********/
+
+.lt-ie9 #gh-main {
+    background-color: #FFF;
+}
+
+#gh-page-container {
+    background-color: #171717;
+
+    #gh-left-container {
+
+        #gh-navigation-container,
+        #gh-modules-container {
+            background-color: #171717;
+        }
+    }
+}
+
+footer#footer-help {
+    background-color: $primary-colour;
+}
+
+.gh-admin footer#footer-help,
+.gh-global-admin footer#footer-help {
+    background-color: #412F5B;
+}
+
+footer {
+    background-color: #171717;
+    color: #FFF;
+
+    h3 {
+        color: #FFF;
+    }
+
+    ul li {
+
+        a,
+        a:hover,
+        a:active,
+        a:focus{
+            color: #FFF;
+        }
+    }
+}
+
+#gh-page-container {
+
+    &.gh-minimised {
+        background-color: transparent !important;
+    }
+
+    #gh-left-container #gh-result-summary {
+        background-color: $secondary-colour;
+        border-bottom-color: #171717;
+    }
+
+    #gh-right-container,
+    #gh-right-container + .clearfix,
+    #gh-header {
+        background-color: #FFF;
+    }
+
+    #gh-right-container #gh-subheader,
+    #gh-left-container #gh-content-description {
+        background-color: $primary-colour;
+        color: #FFF;
+    }
+}
+
+.lt-ie9 #gh-page-container #gh-right-container {
+    background-color: transparent;
+}
+
+.gh-tripos-help {
+    color: #BEBEBE;
+}
+
+.gh-global-admin #gh-page-container #gh-right-container #gh-subheader,
+.gh-global-admin #gh-page-container #gh-left-container #gh-content-description,
+.gh-admin #gh-page-container #gh-right-container #gh-subheader,
+.gh-admin #gh-page-container #gh-left-container #gh-content-description {
+    background-color: #412F5B;
+}
+
+#gh-page-container #gh-left-container {
+
+    #gh-content-description {
+        color: rgba(255, 255, 255, 0.6);
+    }
+
+    #gh-result-summary p {
+        color: rgba(255, 255, 255, 0.6);
+    }
+}
+
+
+/*********/
+/* FORMS */
+/*********/
+
+#gh-right-container #gh-subheader form {
+    color: #313131;
+}
+
+
+/***********/
+/* BUTTONS */
+/***********/
+
+/* Default buttons */
+
+.btn-default {
+    color: #FFF;
+    background-color: #171717;
+    border-color: #171717;
+
+    &:hover,
+    &:focus,
+    &:disabled {
+        color: #FFF;
+        background-color: #2A2A2A;
+        border-color: #2A2A2A;
+    }
+
+    &:active,
+    &.active {
+        -webkit-box-shadow: none;
+           -moz-box-shadow: none;
+                box-shadow: none;
+        color: #FFF;
+        background-color: #7A7A7A;
+        border-color: #7A7A7A;
+    }
+}
+
+/* Primary buttons */
+
+.btn-default.gh-btn-secondary {
+    background-color: transparent;
+    border-color: transparent;
+    color: #171717;
+
+    &:hover,
+    &:focus {
+        color: #FFF;
+        background-color: #2A2A2A;
+        border-color: #2A2A2A;
+    }
+
+    &:active {
+        color: #FFF;
+        background-color: #7A7A7A;
+        border-color: #7A7A7A;
+    }
+}
+
+/* Primary buttons reverse */
+
+.btn-default.gh-btn-secondary.gh-btn-reverse {
+    background-color: transparent;
+    border-color: transparent;
+    color: #FFF;
+
+    &:hover,
+    &:focus {
+        background-color: #28828A;
+        border-color: #28828A;
+        color: #FFF;
+    }
+
+    &:active {
+        background-color: #2D939C;
+        border-color: #2D939C;
+        color: #FFF;
+    }
+}
+
+.btn-default.gh-btn-secondary.gh-btn-reverse.active:hover,
+.btn-default.gh-btn-secondary.gh-btn-reverse.active:focus,
+.btn-default.gh-btn-secondary.gh-btn-reverse.active,
+ul.nav-tabs li.active {
+    background-color: #FFF;
+    border-color: #FFF;
+    color: #171717;
+}
+
+/* Secondary buttons */
+
+.btn-default.gh-btn-tertiary {
+    background-color: #FFF;
+    border-color: #FFF;
+    color: #171717;
+
+    &:hover,
+    &:focus {
+        background-color: #171717;
+        border-color: #171717;
+        color: #FFF;
+    }
+
+    &:active {
+        background-color: #2A2A2A;
+        border-color: #2A2A2A;
+    }
+}
+
+/* Link buttons */
+
+.btn-link i {
+    color: #171717;
+}
+
+
+/*******************/
+/* NAVIGATION TABS */
+/*******************/
+
+.nav-tabs > li > a {
+    color: #FFF;
+
+    &:hover {
+        background-color: transparent;
+    }
+}
+
+
+/**************/
+/* EMPTY PART */
+/**************/
+
+.gh-empty-icons {
+
+    .fa-calendar-o {
+        color: #CCC;
+    }
+
+    .fa-share-square-o {
+        color: $primary-colour;
+    }
+}
+
+
+/**************/
+/* LIST GROUP */
+/**************/
+
+.list-group {
+
+    .list-group-item {
+        background-color: $primary-colour;
+        border-bottom-color: #171717;
+        color: #FFF;
+
+        &.gh-list-group-item-open {
+            background-color: $tertiary-colour;
+        }
+
+        p {
+            color: #FFF;
+        }
+
+        .gh-list-icon i,
+        .gh-list-action i {
+            color: #FFF;
+        }
+
+        .gh-list-action {
+            background-color: $secondary-colour;
+        }
+
+        &.gh-list-group-item-added .gh-list-action {
+            background-color: #FFF !important;
+
+            .btn-link i {
+                color: #BE0F34;
+            }
+        }
+
+        /* Nested lists */
+
+        &.gh-list-group-item-open .list-group .list-group-item {
+            background-color: $tertiary-colour;
+            border-bottom-color: $secondary-colour;
+        }
+
+        .list-group {
+
+            .list-group-item {
+
+                &:hover {
+                    background-color: #277A81;
+                }
+
+                &:first-child {
+                    border-color: $secondary-colour;
+                }
+
+                .gh-list-action,
+                .gh-list-description,
+                .gh-series-borrowed {
+                    border-top-color: #171717;
+                }
+
+                .gh-list-action {
+                    background-color: $primary-colour;
+                }
+
+                .gh-list-description p.gh-list-metadata:not(.no-information){
+                    color: #FFF;
+                }
+            }
+        }
+
+        .gh-list-action.disabled {
+            background-color: $secondary-colour !important;
+        }
+
+        .gh-borrowed-icon-container:hover {
+            background-color: #D7E0DC;
+        }
+    }
+}
+
+.gh-list-group-item-container.gh-series-active .gh-borrowed-icon-container .fa-link,
+.gh-list-group-item-container.gh-series-active .gh-list-action i,
+.list-group .list-group-item .gh-borrowed-icon-container:hover .fa-link {
+    color: #171717;
+}
+
+
+/*******************/
+/* NAVIGATION PILL */
+/*******************/
+
+.nav-pills.nav-stacked {
+
+    > li {
+
+        > a {
+            background-color: transparent;
+            color: #FFF;
+
+            &:focus,
+            &:hover {
+                background-color: #DDD;
+                color: #171717;
+            }
+        }
+
+        &.active {
+
+            > a,
+            > a:hover,
+            > a:focus {
+                background-color: $secondary-colour;
+            }
+        }
+    }
+}
+
+.gh-global-admin .nav-pills.nav-stacked > li.active {
+
+    > a,
+    > a:hover,
+    > a:focus {
+        background-color: #62326E;
+    }
+}
+
+.gh-admin .nav-pills.nav-stacked > li.active {
+
+    > a,
+    > a:hover,
+    > a:focus {
+        background-color: #62326E;
+    }
+}
+
+
+/**********/
+/* PANELS */
+/**********/
+
+.panel-default,
+.panel-group:last-child .panel-default {
+    border-color: #DDD;
+}
+
+.panel-group:last-child .panel {
+    border-bottom-color: #DDD;
+}
+
+.panel-default .panel-body .gh-striped-row:nth-child(odd) {
+    background-color: #F9F9F9;
+}
+
+
+/**********/
+/* CHOSEN */
+/**********/
+
+.chosen-container {
+
+    .chosen-single,
+    .chosen-drop {
+        border-color: #FFF !important;
+    }
+
+    .chosen-single {
+        background: #FFF;
+        color: #171717;
+    }
+
+
+    .chosen-search {
+
+        input {
+            color: #555 !important;
+            border-color: #CCC !important;
+        }
+
+        input::-webkit-input-placeholder {
+           color: #555;
+        }
+
+        input::-moz-placeholder {  /* Firefox 19+ */
+           color: #555;
+        }
+
+        input:-ms-input-placeholder {
+           color: #555;
+        }
+    }
+
+    .chosen-results {
+
+        li.no-results {
+            background: none !important;
+        }
+
+        li.highlighted {
+            background-color: $secondary-colour;
+        }
+    }
+
+    &.chosen-with-drop {
+
+        .chosen-drop,
+        .chosen-single {
+            border-color: #DDDDDD !important;
+        }
+    }
+}
+
+.gh-chosen-inverted .chosen-container{
+
+    .chosen-single,
+    .chosen-drop {
+        border-color: #B8B8B8 !important;
+    }
+}
+
+
+/************/
+/* CALENDAR */
+/************/
+
+.fc-unthemed {
+
+    th,
+    td,
+    hr,
+    thead,
+    tbody,
+    .fc-row,
+    .fc-popover {
+        border-color: #D4DFDA;
+    }
+}
+
+/* Primary toolbar */
+
+.gh-toolbar-primary {
+    background-color: $secondary-colour;
+}
+
+.fc-row.fc-widget-header thead tr th,
+.fc-month-view .fc-row.fc-widget-header thead tr th:first-child {
+    border-bottom-color: $calendar-today-background-colour;
+}
+
+.fc-agendaDay-view .fc-row.fc-widget-header thead tr th.fc-today,
+.fc-agendaWeek-view .fc-row.fc-widget-header thead tr th.fc-today {
+    border-bottom-color: #171717 !important;
+}
+
+.fc-agendaWeek-view .fc-row.fc-widget-header thead tr th.fc-today {
+    background-color: $calendar-today-background-colour;
+}
+
+.fc-agendaWeek-view td.fc-today,
+.fc-month-view td.fc-today {
+    background-color: $calendar-today-background-colour !important;
+}
+
+.fc-sat,
+.fc-sun {
+    background-color: #FFF !important;
+}
+
+tbody .fc-sat,
+tbody .fc-sun {
+    background-color: #EFF3F1;
+}
+
+.fc-event-container {
+
+    .fc-event {
+        background-color: $calendar-event-background-colour;
+        border-bottom-color: $calendar-event-border-colour;
+        border-left-color: $calendar-event-border-colour;
+
+        &.highlighted {
+            background-color: #0b646f;
+        }
+
+        .fc-content {
+            color: #171717;
+        }
+    }
+}
+
+.fc-time-grid-event .fc-location {
+    color: #07646F;
+}
+
+.fc-event-container .fc-event.highlighted .fc-content,
+.fc-time-grid-event.highlighted .fc-content .fc-location {
+    color: #FFF;
+}
+
+.fc-unthemed .fc-today {
+    background-color: transparent;
+}
+
+.fc-month-view {
+
+    .fc-day-number.fc-sun,
+    .fc-day-number.fc-sat {
+        border-left: 1px solid #D4DFDA !important;
+        border-top: 1px solid #D4DFDA !important;
+    }
+
+    .fc-today.fc-day-number {
+        background-color: #08525d !important;
+        border-right-color: #D4DFDA !important;
+        color: #FFF;
+    }
+
+    .fc-bg td.fc-today:before {
+        border-top-color: #414141;
+    }
+}
+
+#gh-calendar-view {
+
+    /* Export calendar */
+
+    &.gh-export-enabled #gh-btn-calendar-export {
+        background-color: #EEF2F0;
+        border-color: #EEF2F0;
+        color: #171717;
+    }
+
+    #gh-export-container {
+        background: #EEF2F0;
+
+        #gh-export-main {
+            background-color: #FFF;
+
+            textarea {
+                background-color: #FAFAFA;
+                border-color: #B3B3B3;
+            }
+
+            #gh-export-subscribe {
+                background-color: $primary-colour;
+
+                &:hover {
+                    background-color: $secondary-colour;
+                }
+            }
+        }
+
+        #gh-export-collapsed-other-toggle.btn-link i {
+            color: $secondary-colour;
+        }
+
+        #gh-export-main ul li i {
+            color: rgba(61, 61, 61, 0.4);
+        }
+
+        > #gh-export-sync-message {
+            color: #6C6C6C;
+        }
+    }
+}
+
+
+/***********/
+/* POPOVER */
+/***********/
+
+.popover {
+    background-color: #F8F6FB;
+
+    &.left > .arrow:after {
+        border-left-color: #F8F6FB;
+    }
+
+    &.right > .arrow:after {
+        border-right-color: #F8F6FB;
+    }
+
+    h3 {
+        border-bottom-color: #DDD;
+    }
+
+    small {
+        border-top-color: #DDD;
+        color: #999;
+    }
+
+    /* Series popover */
+
+    &.gh-series-popover {
+
+        .gh-popover-location,
+        .gh-popover-organiser {
+            border-top-color: #DDD;
+        }
+    }
+
+    /* Borrowed popover */
+
+    &.gh-borrowed-popover,
+    &.gh-borrowed-published-popover {
+        background-color: #D7E0DC;
+    }
+
+    &.gh-borrowed-popover .arrow:after,
+    &.gh-borrowed-published-popover .arrow:after {
+        border-right-color: #D7E0DC;
+    }
+}
+
+
+/**********/
+/* EVENTS */
+/**********/
+
+.gh-event-type::before {
+    background-color: #555;
+    color: #FFF;
+}
+
+.gh-event-type[data-type="Lecture"]::before {
+    background-color: #19A3FF;
+}
+
+.gh-event-type[data-type="Class"]::before {
+    background-color: #FF944D;
+}
+
+.gh-event-type[data-type="Seminar"]::before {
+    background-color: #92308A;
+}
+
+.gh-event-type[data-type="Other"]::before {
+    background-color: #FF4719;
+}
+
+
+/*****************/
+/* NOTIFICATIONS */
+/*****************/
+
+.notifications {
+
+    .alert.alert-success,
+    .alert.alert-error {
+        color: $notification-alert-text-colour;
+    }
+
+    .alert.alert-success {
+        background-color: $notification-alert-success-background-colour;
+        border-color: $notification-alert-success-border-colour;
+    }
+
+    .alert.alert-error {
+        background-color: $notification-alert-error-background-colour;
+        border-color: $notification-alert-error-border-colour;
+    }
+
+    > .alert {
+        @include box-shadow(0 2px 4px 0 rgba(0, 0, 0, .4));
+    }
+}
+
+
+/*****************/
+/* CALENDAR ICON */
+/*****************/
+
+.gh-event-calendar-icon {
+    border-color: #888;
+
+    .month {
+        background-color: #888;
+        color: #FFF;
+        text-shadow: 1px 1px 1px rgba(136,136,136,0.004);
+    }
+
+    .day {
+        background-color: #FFF;
+        color: #4D4D4D;
+    }
+
+    &.gh-event-calendar-icon-xl + .dayname {
+        color: #919191;
+    }
+}
+
+/* Today's icon */
+
+.gh-agenda-view-today .gh-event-calendar-icon {
+    border-color: #016470;
+
+    .month {
+        background-color: #016470;
+    }
+
+    .day {
+        background-color: #30818A;
+        color: #FFF;
+    }
+}
+
+
+/***************/
+/* AGENDA VIEW */
+/***************/
+
+.agenda-view-term {
+
+    .agenda-view-term-header {
+        border-bottom-color: $agenda-term-border-colour;
+
+        button,
+        button i {
+            color: #333;
+        }
+    }
+
+    .agenda-view-term-events {
+
+        .gh-agenda-view-term-week {
+            border-bottom-color: $agenda-term-border-colour;
+
+            h3 span {
+                color: #919191;
+            }
+
+            span.gh-agenda-view-middot {
+                color: #919191;
+            }
+
+            .gh-agenda-view-no-events {
+                background-color: #F5F5F5;
+                color: #999;
+            }
+
+            .gh-agenda-view-term-event {
+                border-bottom-color: #EEE;
+
+                &.gh-agenda-view-today {
+                    background-color: #EBF3F0;
+                }
+
+                .gh-agenda-view-event-information {
+                    border-bottom-color: #EEE;
+                }
+
+                &.gh-agenda-view-today .gh-agenda-view-event-information {
+                    border-bottom-color: #FFF;
+                }
+
+                .gh-agenda-view-event-module,
+                .gh-agenda-view-event-belongs {
+                    color: #919191;
+                }
+            }
+        }
+    }
+}
+
+
+/**********/
+/* MODALS */
+/**********/
+
+.modal-header .close:hover {
+    color: #AAA;
+}
+
+.modal-content form label {
+    color: #8D8D8D;
+}
+
+
+/*********************/
+/* SERIES INFO MODAL */
+/*********************/
+
+#gh-series-info-modal {
+
+    /* Header */
+
+    .modal-header {
+        background-color: $primary-colour;
+
+        h4, button, p {
+            color: #FFF;
+        }
+    }
+
+    /* Term */
+
+    .gh-series-info-list .gh-series-info-list-term strong {
+        border-bottom-color: #DDD;
+    }
+
+    /* Metadata */
+
+    .gh-series-info-location {
+        border-top-color: #AAA;
+    }
+
+    .gh-series-info-organiser {
+        border-top-color: #DDD;
+    }
+
+    .gh-series-info-list-no-events,
+    .gh-series-info-location,
+    .gh-series-info-organiser {
+        background-color: #EEE;
+    }
+}
+
+
+/***********************/
+/* BORROW SERIES MODAL */
+/***********************/
+
+#gh-borrow-series-modal {
+
+    .gh-admin-borrow-series-no-modules {
+        background-color: #EEEEEE;
+        color: #999;
+    }
+}
