@@ -1113,17 +1113,23 @@ define(['gh.core', 'gh.constants', 'moment', 'moment-timezone', 'gh.calendar', '
 
         _.each(organiserFields, function($organiserField) {
             $organiserField = $($organiserField);
-            var userId = $organiserField.attr('data-id');
-            var displayName = $organiserField.val();
+            var dataAddFlag = $organiserField.attr('data-add');
+            console.log("Data Add Flag : " + dataAddFlag);
+            if (dataAddFlag=='true')
+            {
+                var userId = $organiserField.attr('data-id');
+                var displayName = $organiserField.val();
 
-            // If the userID is present, push it into the user Array. If no ID
-            // is available for the user this user does not have an account and we
-            // push the displayName in the others Array
-            if (userId) {
-                organisers.organiserUsers.push(userId);
-            } else {
-                organisers.organiserOthers.push(displayName);
+                // If the userID is present, push it into the user Array. If no ID
+                // is available for the user this user does not have an account and we
+                // push the displayName in the others Array
+                if (userId) {
+                    organisers.organiserUsers.push(userId);
+                } else {
+                    organisers.organiserOthers.push(displayName);
+                }
             }
+            
         });
 
         return organisers;
