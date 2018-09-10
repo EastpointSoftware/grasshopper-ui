@@ -1114,7 +1114,6 @@ define(['gh.core', 'gh.constants', 'moment', 'moment-timezone', 'gh.calendar', '
         _.each(organiserFields, function($organiserField) {
             $organiserField = $($organiserField);
             var dataAddFlag = $organiserField.attr('data-add');
-            console.log("Data Add Flag : " + dataAddFlag);
             if (dataAddFlag=='true')
             {
                 var userId = $organiserField.attr('data-id');
