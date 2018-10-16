@@ -23,14 +23,10 @@ define(['gh.core', 'gh.constants'], function(gh, constants) {
     /**
      * Render and play the video
      *
-     * @param  {Object}     [data]      Data about which video should be played
-     * @param {String}      [data.id]   The id of the video that should be played. A key in `constants.video`
      * @private
      */
-    var renderAndPlayVideo = function(data) {
-        data = data || {};
-        var videoId = data.id || 'adminhowto';
-        var youtubeId = constants.video[videoId];
+    var renderAndPlayVideo = function() {
+        var youtubeId = constants.video.adminhowto;
         var videoURL = '//www.youtube.com/embed/' + youtubeId + '?enablejsapi=1&autoplay=1&hl=en-gb&modestbranding=1&rel=0&showinfo=0&color=white&theme=light';
 
         gh.utils.renderTemplate('admin-video', {
@@ -61,9 +57,7 @@ define(['gh.core', 'gh.constants'], function(gh, constants) {
      * @private
      */
     var addBinding = function() {
-        $(document).on('gh.video.play', function(e, data) {
-            renderAndPlayVideo(data);
-        });
+        $(document).on('gh.video.play', renderAndPlayVideo);
         $(document).on('gh.video.stop', stopVideo);
     };
 

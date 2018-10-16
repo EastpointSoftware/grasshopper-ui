@@ -57,8 +57,15 @@ define(['exports', 'lodash'], function(exports) {
 
                     // Merge the two configurations. Note that the static configuration
                     // file will never overwrite the configuration from the back-end
-                    config = _.extend(JSONConfig, APIConfig);
+                    // sometimes the we get json string instead of a Json object. So we need to parse. 
 
+                    if( typeof JSONConfig ==  "string")
+                    {                        
+                        config = _.extend(JSON.parse(JSONConfig), APIConfig);
+                    }else{                        
+                        config = _.extend(JSONConfig, APIConfig);
+                    }
+                    
                     return callback(null, config);
                 });
             },

@@ -41,19 +41,15 @@ define(['gh.core', 'gh.constants', 'gh.footer', 'gh.header', 'gh.admin.manage-or
      * @private
      */
     var renderLoginForm = function() {
-        var height = 150;
-        if (gh.config.enableLocalAuth && !gh.config.enableShibbolethAuth) {
-            height = 350;
-        }
-        $('#gh-subheader, #gh-content-description').height(height);
+        $('#gh-subheader, #gh-content-description').height(350);
         gh.utils.renderTemplate('admin-login-form', {
             'gh': gh
-        }, $('#gh-subheader'), function() {
-            // Bind the validator to the local login form
-            $('.gh-signin-local-form').validator({
-                'disable': false
-            }).on('submit', doLogin);
-        });
+        }, $('#gh-subheader'));
+
+        // Bind the validator to the login form
+        $('.gh-signin-form').validator({
+            'disable': false
+        }).on('submit', doLogin);
     };
 
     /**
@@ -626,8 +622,12 @@ define(['gh.core', 'gh.constants', 'gh.footer', 'gh.header', 'gh.admin.manage-or
             // Set up the page footer
             $(document).trigger('gh.footer.init');
 
-            // Render the login form
-            renderLoginForm();
+            // Only show the login form is local authentication is enabled and shibboleth is disabled
+            if (gh.config.enableLocalAuth && !gh.config.enableShibbolethAuth) {
+
+                // Render the login form
+                renderLoginForm();
+            }
         } else {
             // Add event handlers
             addBinding();

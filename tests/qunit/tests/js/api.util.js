@@ -23,20 +23,20 @@ require(['gh.core', 'moment', 'gh.api.orgunit', 'gh.api.tests'], function(gh, mo
                 {
                     "name": "michaelmas",
                     "label": "Michaelmas",
-                    "start": "2014-10-07",
-                    "end": "2014-12-05"
+                    "start": "2014-10-07T00:00:00.000Z",
+                    "end": "2014-12-05T00:00:00.000Z"
                 },
                 {
                     "name": "lent",
                     "label": "Lent",
-                    "start": "2015-01-13",
-                    "end": "2015-03-13"
+                    "start": "2015-01-13T00:00:00.000Z",
+                    "end": "2015-03-13T00:00:00.000Z"
                 },
                 {
                     "name": "easter",
                     "label": "Easter",
-                    "start": "2015-04-21",
-                    "end": "2015-06-12"
+                    "start": "2015-04-21T00:00:00.000Z",
+                    "end": "2015-06-12T00:00:00.000Z"
                 }
             ]
         },
@@ -204,24 +204,6 @@ require(['gh.core', 'moment', 'gh.api.orgunit', 'gh.api.tests'], function(gh, mo
         // Verify that no term is returned when specifying an out-of-term date
         term = gh.utils.getTerm(gh.utils.convertISODatetoUnixDate('2015-01-01T10:30:00.000Z'));
         assert.ok(!term);
-
-        // Verify the correct term is returned when the first day of term is passed in
-        term = gh.utils.getTerm(gh.utils.convertISODatetoUnixDate('2014-10-09T10:00:00.000Z'));
-        assert.ok(term);
-        assert.strictEqual(term.name, 'michaelmas', 'Verify that the corresponding term is returned');
-
-        // Verify the correct term is returned when the last day of term is passed in
-        term = gh.utils.getTerm(gh.utils.convertISODatetoUnixDate('2014-12-03T10:00:00.000Z'));
-        assert.ok(term);
-        assert.strictEqual(term.name, 'michaelmas', 'Verify that the corresponding term is returned');
-
-        // Verify no term is returned when the day before term starts is passed in
-        term = gh.utils.getTerm(gh.utils.convertISODatetoUnixDate('2014-10-08T10:00:00.000Z'));
-        assert.ok(!term);
-
-        // Verify no term is returned when the day after term ends is passed in
-        term = gh.utils.getTerm(gh.utils.convertISODatetoUnixDate('2014-12-04T10:00:00.000Z'));
-        assert.ok(!term);
     });
 
     // Test the 'getWeeksInTerm' functionality
@@ -245,11 +227,11 @@ require(['gh.core', 'moment', 'gh.api.orgunit', 'gh.api.tests'], function(gh, mo
         }, 'Verify that a valid term name needs to be provided');
 
         // Use the first day of Michaelmas to test with
-        var expectedDate = moment('2014-10-09', 'YYYY-MM-DD');
-        var firstLectureDay = moment(gh.utils.getFirstLectureDayOfTerm('michaelmas'), 'YYYY-MM-DD');
-        assert.strictEqual(firstLectureDay.format('DD'), expectedDate.format('DD'), 'Verify that the correct day is returned');
-        assert.strictEqual(firstLectureDay.format('MM'), expectedDate.format('MM'), 'Verify that the correct month is returned');
-        assert.strictEqual(firstLectureDay.format('YYYY'), expectedDate.format('YYYY'), 'Verify that the correct year is returned');
+        var testDate = moment('2014-10-09T00:00:00.000Z');
+        var firstLectureDay = gh.utils.getFirstLectureDayOfTerm('michaelmas');
+        assert.strictEqual(moment.utc(firstLectureDay).format('DD'), moment.utc(testDate).format('DD'), 'Verify that the correct day is returned');
+        assert.strictEqual(moment.utc(firstLectureDay).format('MM'), moment.utc(testDate).format('MM'), 'Verify that the correct month is returned');
+        assert.strictEqual(moment.utc(firstLectureDay).format('YYYY'), moment.utc(testDate).format('YYYY'), 'Verify that the correct year is returned');
     });
 
     // Test the 'getDateByWeekAndDay' functionality
@@ -269,202 +251,12 @@ require(['gh.core', 'moment', 'gh.api.orgunit', 'gh.api.tests'], function(gh, mo
             gh.utils.getDateByWeekAndDay('michaelmas', 1, null);
         }, 'Verify that a valid term name needs to be provided');
 
-        // Perform a few manual assertions, both before and after DST
-        // The following object holds the first 4 weeks of the Michaelmas term. Each inner object
-        // maps the day of the week (1=Monday, 2=Tuesday, ..) to the expected date for that termweek
-        var michaelmasDates = {
-            '1': {
-                '4': new Date('Thu Oct 09 2014 00:00:00 GMT+0100 (BST)'),
-                '5': new Date('Fri Oct 10 2014 00:00:00 GMT+0100 (BST)'),
-                '6': new Date('Sat Oct 11 2014 00:00:00 GMT+0100 (BST)'),
-                '7': new Date('Sun Oct 12 2014 00:00:00 GMT+0100 (BST)'),
-                '1': new Date('Mon Oct 13 2014 00:00:00 GMT+0100 (BST)'),
-                '2': new Date('Tue Oct 14 2014 00:00:00 GMT+0100 (BST)'),
-                '3': new Date('Wed Oct 15 2014 00:00:00 GMT+0100 (BST)')
-            },
-            '2': {
-                '4': new Date('Thu Oct 16 2014 00:00:00 GMT+0100 (BST)'),
-                '5': new Date('Fri Oct 17 2014 00:00:00 GMT+0100 (BST)'),
-                '6': new Date('Sat Oct 18 2014 00:00:00 GMT+0100 (BST)'),
-                '7': new Date('Sun Oct 19 2014 00:00:00 GMT+0100 (BST)'),
-                '1': new Date('Mon Oct 20 2014 00:00:00 GMT+0100 (BST)'),
-                '2': new Date('Tue Oct 21 2014 00:00:00 GMT+0100 (BST)'),
-                '3': new Date('Wed Oct 22 2014 00:00:00 GMT+0100 (BST)')
-            },
-            '3': {
-                '4': new Date('Thu Oct 23 2014 00:00:00 GMT+0100 (BST)'),
-                '5': new Date('Fri Oct 24 2014 00:00:00 GMT+0100 (BST)'),
-                '6': new Date('Sat Oct 25 2014 00:00:00 GMT+0100 (BST)'),
-                '7': new Date('Sun Oct 26 2014 00:00:00 GMT+0100 (BST)'),
-                '1': new Date('Mon Oct 27 2014 00:00:00 GMT+0000 (GMT)'),
-                '2': new Date('Tue Oct 28 2014 00:00:00 GMT+0000 (GMT)'),
-                '3': new Date('Wed Oct 29 2014 00:00:00 GMT+0000 (GMT)')
-            },
-            '4': {
-                '4': new Date('Thu Oct 30 2014 00:00:00 GMT+0000 (GMT)'),
-                '5': new Date('Fri Oct 31 2014 00:00:00 GMT+0000 (GMT)'),
-                '6': new Date('Sat Nov 01 2014 00:00:00 GMT+0000 (GMT)'),
-                '7': new Date('Sun Nov 02 2014 00:00:00 GMT+0000 (GMT)'),
-                '1': new Date('Mon Nov 03 2014 00:00:00 GMT+0000 (GMT)'),
-                '2': new Date('Tue Nov 04 2014 00:00:00 GMT+0000 (GMT)'),
-                '3': new Date('Wed Nov 05 2014 00:00:00 GMT+0000 (GMT)')
-            }
-        };
-        checkDateByWeekAndDay(michaelmasDates, 'michaelmas');
-
-        var lentDates = {
-            '1': {
-                '4': new Date('Thu Jan 15 2015 00:00:00 GMT+0000 (GMT)'),
-                '5': new Date('Fri Jan 16 2015 00:00:00 GMT+0000 (GMT)'),
-                '6': new Date('Sat Jan 17 2015 00:00:00 GMT+0000 (GMT)'),
-                '7': new Date('Sun Jan 18 2015 00:00:00 GMT+0000 (GMT)'),
-                '1': new Date('Mon Jan 19 2015 00:00:00 GMT+0000 (GMT)'),
-                '2': new Date('Tue Jan 20 2015 00:00:00 GMT+0000 (GMT)'),
-                '3': new Date('Wed Jan 21 2015 00:00:00 GMT+0000 (GMT)')
-            },
-            '2': {
-                '4': new Date('Thu Jan 22 2015 00:00:00 GMT+0000 (GMT)'),
-                '5': new Date('Fri Jan 23 2015 00:00:00 GMT+0000 (GMT)'),
-                '6': new Date('Sat Jan 24 2015 00:00:00 GMT+0000 (GMT)'),
-                '7': new Date('Sun Jan 25 2015 00:00:00 GMT+0000 (GMT)'),
-                '1': new Date('Mon Jan 26 2015 00:00:00 GMT+0000 (GMT)'),
-                '2': new Date('Tue Jan 27 2015 00:00:00 GMT+0000 (GMT)'),
-                '3': new Date('Wed Jan 28 2015 00:00:00 GMT+0000 (GMT)')
-            },
-            '3': {
-                '4': new Date('Thu Jan 29 2015 00:00:00 GMT+0000 (GMT)'),
-                '5': new Date('Fri Jan 30 2015 00:00:00 GMT+0000 (GMT)'),
-                '6': new Date('Sat Jan 31 2015 00:00:00 GMT+0000 (GMT)'),
-                '7': new Date('Sun Feb 01 2015 00:00:00 GMT+0000 (GMT)'),
-                '1': new Date('Mon Feb 02 2015 00:00:00 GMT+0000 (GMT)'),
-                '2': new Date('Tue Feb 03 2015 00:00:00 GMT+0000 (GMT)'),
-                '3': new Date('Wed Feb 04 2015 00:00:00 GMT+0000 (GMT)')
-            },
-            '4': {
-                '4': new Date('Thu Feb 05 2015 00:00:00 GMT+0000 (GMT)'),
-                '5': new Date('Fri Feb 06 2015 00:00:00 GMT+0000 (GMT)'),
-                '6': new Date('Sat Feb 07 2015 00:00:00 GMT+0000 (GMT)'),
-                '7': new Date('Sun Feb 08 2015 00:00:00 GMT+0000 (GMT)'),
-                '1': new Date('Mon Feb 09 2015 00:00:00 GMT+0000 (GMT)'),
-                '2': new Date('Tue Feb 10 2015 00:00:00 GMT+0000 (GMT)'),
-                '3': new Date('Wed Feb 11 2015 00:00:00 GMT+0000 (GMT)')
-            },
-            '5': {
-                '4': new Date('Thu Feb 12 2015 00:00:00 GMT+0000 (GMT)'),
-                '5': new Date('Fri Feb 13 2015 00:00:00 GMT+0000 (GMT)'),
-                '6': new Date('Sat Feb 14 2015 00:00:00 GMT+0000 (GMT)'),
-                '7': new Date('Sun Feb 15 2015 00:00:00 GMT+0000 (GMT)'),
-                '1': new Date('Mon Feb 16 2015 00:00:00 GMT+0000 (GMT)'),
-                '2': new Date('Tue Feb 17 2015 00:00:00 GMT+0000 (GMT)'),
-                '3': new Date('Wed Feb 18 2015 00:00:00 GMT+0000 (GMT)')
-            },
-            '6': {
-                '4': new Date('Thu Feb 19 2015 00:00:00 GMT+0000 (GMT)'),
-                '5': new Date('Fri Feb 20 2015 00:00:00 GMT+0000 (GMT)'),
-                '6': new Date('Sat Feb 21 2015 00:00:00 GMT+0000 (GMT)'),
-                '7': new Date('Sun Feb 22 2015 00:00:00 GMT+0000 (GMT)'),
-                '1': new Date('Mon Feb 23 2015 00:00:00 GMT+0000 (GMT)'),
-                '2': new Date('Tue Feb 24 2015 00:00:00 GMT+0000 (GMT)'),
-                '3': new Date('Wed Feb 25 2015 00:00:00 GMT+0000 (GMT)')
-            },
-            '7': {
-                '4': new Date('Thu Feb 26 2015 00:00:00 GMT+0000 (GMT)'),
-                '5': new Date('Fri Feb 27 2015 00:00:00 GMT+0000 (GMT)'),
-                '6': new Date('Sat Feb 28 2015 00:00:00 GMT+0000 (GMT)'),
-                '7': new Date('Sun Mar 01 2015 00:00:00 GMT+0000 (GMT)'),
-                '1': new Date('Mon Mar 02 2015 00:00:00 GMT+0000 (GMT)'),
-                '2': new Date('Tue Mar 03 2015 00:00:00 GMT+0000 (GMT)'),
-                '3': new Date('Wed Mar 04 2015 00:00:00 GMT+0000 (GMT)')
-            },
-            '8': {
-                '4': new Date('Thu Mar 05 2015 00:00:00 GMT+0000 (GMT)'),
-                '5': new Date('Fri Mar 06 2015 00:00:00 GMT+0000 (GMT)'),
-                '6': new Date('Sat Mar 07 2015 00:00:00 GMT+0000 (GMT)'),
-                '7': new Date('Sun Mar 08 2015 00:00:00 GMT+0000 (GMT)'),
-                '1': new Date('Mon Mar 09 2015 00:00:00 GMT+0000 (GMT)'),
-                '2': new Date('Tue Mar 10 2015 00:00:00 GMT+0000 (GMT)'),
-                '3': new Date('Wed Mar 11 2015 00:00:00 GMT+0000 (GMT)')
-            }
-        };
-        checkDateByWeekAndDay(lentDates, 'lent');
-
-        var easterDates = {
-            '1': {
-                '4': new Date('Thu Apr 23 2015 00:00:00 GMT+0100 (BST)'),
-                '5': new Date('Fri Apr 24 2015 00:00:00 GMT+0100 (BST)'),
-                '6': new Date('Sat Apr 25 2015 00:00:00 GMT+0100 (BST)'),
-                '7': new Date('Sun Apr 26 2015 00:00:00 GMT+0100 (BST)'),
-                '1': new Date('Mon Apr 27 2015 00:00:00 GMT+0100 (BST)'),
-                '2': new Date('Tue Apr 28 2015 00:00:00 GMT+0100 (BST)'),
-                '3': new Date('Wed Apr 29 2015 00:00:00 GMT+0100 (BST)')
-            },
-            '2': {
-                '4': new Date('Thu Apr 30 2015 00:00:00 GMT+0100 (BST)'),
-                '5': new Date('Fri May 01 2015 00:00:00 GMT+0100 (BST)'),
-                '6': new Date('Sat May 02 2015 00:00:00 GMT+0100 (BST)'),
-                '7': new Date('Sun May 03 2015 00:00:00 GMT+0100 (BST)'),
-                '1': new Date('Mon May 04 2015 00:00:00 GMT+0100 (BST)'),
-                '2': new Date('Tue May 05 2015 00:00:00 GMT+0100 (BST)'),
-                '3': new Date('Wed May 06 2015 00:00:00 GMT+0100 (BST)')
-            },
-            '3': {
-                '4': new Date('Thu May 07 2015 00:00:00 GMT+0100 (BST)'),
-                '5': new Date('Fri May 08 2015 00:00:00 GMT+0100 (BST)'),
-                '6': new Date('Sat May 09 2015 00:00:00 GMT+0100 (BST)'),
-                '7': new Date('Sun May 10 2015 00:00:00 GMT+0100 (BST)'),
-                '1': new Date('Mon May 11 2015 00:00:00 GMT+0100 (BST)'),
-                '2': new Date('Tue May 12 2015 00:00:00 GMT+0100 (BST)'),
-                '3': new Date('Wed May 13 2015 00:00:00 GMT+0100 (BST)')
-            },
-            '4': {
-                '4': new Date('Thu May 14 2015 00:00:00 GMT+0100 (BST)'),
-                '5': new Date('Fri May 15 2015 00:00:00 GMT+0100 (BST)'),
-                '6': new Date('Sat May 16 2015 00:00:00 GMT+0100 (BST)'),
-                '7': new Date('Sun May 17 2015 00:00:00 GMT+0100 (BST)'),
-                '1': new Date('Mon May 18 2015 00:00:00 GMT+0100 (BST)'),
-                '2': new Date('Tue May 19 2015 00:00:00 GMT+0100 (BST)'),
-                '3': new Date('Wed May 20 2015 00:00:00 GMT+0100 (BST)')
-            },
-            '5': {
-                '4': new Date('Thu May 21 2015 00:00:00 GMT+0100 (BST)'),
-                '5': new Date('Fri May 22 2015 00:00:00 GMT+0100 (BST)'),
-                '6': new Date('Sat May 23 2015 00:00:00 GMT+0100 (BST)'),
-                '7': new Date('Sun May 24 2015 00:00:00 GMT+0100 (BST)'),
-                '1': new Date('Mon May 25 2015 00:00:00 GMT+0100 (BST)'),
-                '2': new Date('Tue May 26 2015 00:00:00 GMT+0100 (BST)'),
-                '3': new Date('Wed May 27 2015 00:00:00 GMT+0100 (BST)')
-            },
-            '6': {
-                '4': new Date('Thu May 28 2015 00:00:00 GMT+0100 (BST)'),
-                '5': new Date('Fri May 29 2015 00:00:00 GMT+0100 (BST)'),
-                '6': new Date('Sat May 30 2015 00:00:00 GMT+0100 (BST)'),
-                '7': new Date('Sun May 31 2015 00:00:00 GMT+0100 (BST)'),
-                '1': new Date('Mon Jun 01 2015 00:00:00 GMT+0100 (BST)'),
-                '2': new Date('Tue Jun 02 2015 00:00:00 GMT+0100 (BST)'),
-                '3': new Date('Wed Jun 03 2015 00:00:00 GMT+0100 (BST)')
-            },
-            '7': {
-                '4': new Date('Thu Jun 04 2015 00:00:00 GMT+0100 (BST)'),
-                '5': new Date('Fri Jun 05 2015 00:00:00 GMT+0100 (BST)'),
-                '6': new Date('Sat Jun 06 2015 00:00:00 GMT+0100 (BST)'),
-                '7': new Date('Sun Jun 07 2015 00:00:00 GMT+0100 (BST)'),
-                '1': new Date('Mon Jun 08 2015 00:00:00 GMT+0100 (BST)'),
-                '2': new Date('Tue Jun 09 2015 00:00:00 GMT+0100 (BST)'),
-                '3': new Date('Wed Jun 10 2015 00:00:00 GMT+0100 (BST)')
-            }
-        };
-        checkDateByWeekAndDay(easterDates, 'easter');
-
-        function checkDateByWeekAndDay(testDates, termName) {
-            _.each(testDates, function(days, week) {
-                week = parseInt(week, 10);
-                _.each(days, function(expectedDate, dayOfTheWeek){
-                    dayOfTheWeek = parseInt(dayOfTheWeek, 10);
-                    var date = gh.utils.getDateByWeekAndDay(termName, week, dayOfTheWeek);
-                    assert.strictEqual(date.getTime(), expectedDate.getTime(), 'Verify week ' + week + ' day ' + dayOfTheWeek + ' in ' + termName + ' returns the correct time');
-                });
-            });
-        }
+        // Verify that the correct date is returned
+        var testDate = new Date('Wed Oct 22 2014 01:00:00 GMT+0100 (BST)');
+        var testDate2 = new Date('Mon Oct 20 2014 01:00:00 GMT+0100 (BST)');
+        assert.strictEqual(gh.utils.getDateByWeekAndDay('michaelmas', 2, 3).getDay(), testDate.getDay(), 'Verify that the correct day is returned');
+        assert.strictEqual(gh.utils.getDateByWeekAndDay('michaelmas', 2, 3).getMonth(), testDate.getMonth(), 'Verify that the correct month is returned');
+        assert.strictEqual(gh.utils.getDateByWeekAndDay('michaelmas', 2, 1).getFullYear(), testDate2.getFullYear(), 'Verify that the correct year is returned');
     });
 
     // Test the 'dateDisplay' functionality
@@ -671,7 +463,7 @@ require(['gh.core', 'moment', 'gh.api.orgunit', 'gh.api.tests'], function(gh, mo
 
     // Test the 'orderEventsByTerm' functionality
     QUnit.test('orderEventsByTerm', function(assert) {
-        expect(17);
+        expect(8);
 
         // Verify that an error is thrown when no events were provided
         assert.throws(function() {
@@ -684,13 +476,19 @@ require(['gh.core', 'moment', 'gh.api.orgunit', 'gh.api.tests'], function(gh, mo
         }, 'Verify that an error is thrown when an invalid value for events was provided');
 
         // Split the events by term
-        var splitEvents = gh.utils.splitEventsByTerm({
+        var eventsByTerm = gh.utils.splitEventsByTerm({
             "results": [
 
                 // OT before Michaelmas
                 {
                     "end": "2014-10-06T14:00:00.000Z",
                     "start": "2014-10-06T13:00:00.000Z"
+                },
+
+                // OT after Easter
+                {
+                    "end": "2015-06-13T14:00:00.000Z",
+                    "start": "2015-06-13T13:00:00.000Z"
                 },
 
                 // Michaelmas
@@ -703,12 +501,6 @@ require(['gh.core', 'moment', 'gh.api.orgunit', 'gh.api.tests'], function(gh, mo
                     "start": "2014-12-05T13:00:00.000Z"
                 },
 
-                // OT after Michaelmas, before Lent
-                {
-                    "end": "2015-01-06T14:00:00.000Z",
-                    "start": "2015-01-06T13:00:00.000Z"
-                },
-
                 // Lent
                 {
                     "end": "2015-01-13T11:00:00.000Z",
@@ -719,12 +511,6 @@ require(['gh.core', 'moment', 'gh.api.orgunit', 'gh.api.tests'], function(gh, mo
                     "start": "2015-03-13T10:00:00.000Z"
                 },
 
-                // OT after Left, before Easter
-                {
-                    "end": "2015-03-30T14:00:00.000Z",
-                    "start": "2015-03-30T13:00:00.000Z"
-                },
-
                 // Easter
                 {
                     "end": "2015-04-21T14:00:00.000Z",
@@ -733,35 +519,20 @@ require(['gh.core', 'moment', 'gh.api.orgunit', 'gh.api.tests'], function(gh, mo
                 {
                     "end": "2015-06-12T14:00:00.000Z",
                     "start": "2015-06-12T13:00:00.000Z"
-                },
-
-                // OT after Easter
-                {
-                    "end": "2015-06-13T14:00:00.000Z",
-                    "start": "2015-06-13T13:00:00.000Z"
                 }
             ]
         });
 
         // Order the events
-        var eventsByTerm = gh.utils.orderEventsByTerm(splitEvents);
+        var events = gh.utils.orderEventsByTerm(eventsByTerm);
 
         // Verify that the events are returned in a correct order
-        assert.strictEqual(eventsByTerm.length, 7, 'Verify that the events are returned in a correct order');
-        assert.strictEqual(eventsByTerm[0].name, 'OT');
-        assert.strictEqual(eventsByTerm[0].events.length, 1);
-        assert.strictEqual(eventsByTerm[1].name, 'Michaelmas');
-        assert.strictEqual(eventsByTerm[1].events.length, 2);
-        assert.strictEqual(eventsByTerm[2].name, 'OT');
-        assert.strictEqual(eventsByTerm[2].events.length, 1);
-        assert.strictEqual(eventsByTerm[3].name, 'Lent');
-        assert.strictEqual(eventsByTerm[3].events.length, 2);
-        assert.strictEqual(eventsByTerm[4].name, 'OT');
-        assert.strictEqual(eventsByTerm[4].events.length, 1);
-        assert.strictEqual(eventsByTerm[5].name, 'Easter');
-        assert.strictEqual(eventsByTerm[5].events.length, 2);
-        assert.strictEqual(eventsByTerm[6].name, 'OT');
-        assert.strictEqual(eventsByTerm[6].events.length, 1);
+        assert.strictEqual(events.length, 5, 'Verify that the events are returned in a correct order');
+        assert.strictEqual(events[0].name, 'OT');
+        assert.strictEqual(events[1].name, 'Michaelmas');
+        assert.strictEqual(events[2].name, 'Lent');
+        assert.strictEqual(events[3].name, 'Easter');
+        assert.strictEqual(events[4].name, 'OT');
     });
 
     // Test the 'splitEventsByTerm' functionality

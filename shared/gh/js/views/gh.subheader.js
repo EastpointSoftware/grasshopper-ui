@@ -25,6 +25,16 @@ define(['gh.core', 'gh.constants', 'gh.api.orgunit', 'gh.admin.visibility', 'cho
     var timeFromStart = null;
 
     /**
+     * Open the closest picker component when it receives keyboard focus
+     *
+     * @private
+     */
+    var openPicker = function() {
+        var $picker = $($(this).closest('.chosen-container').prev());
+        $picker.trigger('chosen:open');
+    };
+
+    /**
      * Return to the home page
      *
      * @private
@@ -112,12 +122,10 @@ define(['gh.core', 'gh.constants', 'gh.api.orgunit', 'gh.admin.visibility', 'cho
         // Push the selected tripos in the URL
         gh.utils.addToState({'tripos': triposId});
 
-        // If this event wasn't caused by a statechange we'll track it
-        if (!data.statechange) {
-            gh.utils.trackEvent(['Navigation', 'Tripos selector', 'Selected'], {
-                'tripos': triposId
-            });
-        }
+        // Track that the user selected a tripos
+        gh.utils.trackEvent(['Navigation', 'Tripos selector', 'Selected'], {
+            'tripos': triposId
+        });
 
         // Get the parts associated to the selected tripos
         var parts = _.filter(triposData.parts, function(part) {
@@ -171,9 +179,7 @@ define(['gh.core', 'gh.constants', 'gh.api.orgunit', 'gh.admin.visibility', 'cho
             $('#gh-subheader-tripos').show();
 
             // Destroy the field if it's been initialised previously
-            if ($('#gh-subheader-tripos').data('chosen')) {
-                $('#gh-subheader-tripos').chosen('destroy').off('change', setUpPartPicker);
-            }
+            $('#gh-subheader-tripos').chosen('destroy').off('change', setUpPartPicker);
 
             // Initialise the Chosen plugin on the tripos picker
             $('#gh-subheader-tripos').chosen({
@@ -205,7 +211,7 @@ define(['gh.core', 'gh.constants', 'gh.api.orgunit', 'gh.admin.visibility', 'cho
         if (state.tripos) {
             $('#gh_subheader_tripos_chosen').onAvailable(function() {
                 $('#gh-subheader-tripos').val(state.tripos);
-                $('#gh-subheader-tripos').trigger('change', {'selected': state.tripos, 'statechange': true});
+                $('#gh-subheader-tripos').trigger('change', {'selected': state.tripos});
                 $('#gh-subheader-tripos').trigger('chosen:updated');
             });
         } else {
@@ -334,6 +340,9 @@ define(['gh.core', 'gh.constants', 'gh.api.orgunit', 'gh.admin.visibility', 'cho
         });
 
         $('body').on('click', '.gh-home', goHome);
+
+        var throttlePickerFocus = _.throttle(openPicker, 200, {'trailing': false});
+        $('body').on('focus', '.chosen-search input', throttlePickerFocus);
     };
 
     addBinding();

@@ -485,12 +485,8 @@ define(['gh.core', 'gh.constants', 'moment', 'clickover', 'gh.student.agenda-vie
     var getCurrentViewDate = function() {
         // Get the start date from the current calendar view
         var viewStartDate = calendar.fullCalendar('getDate');
-
-        // Avoid BST issues by just setting the hours to noon
-        viewStartDate.hours(12);
-
         // Convert the Moment object to a UTC date
-        return gh.utils.convertISODatetoUnixDate(viewStartDate.format('YYYY-MM-DD'));
+        return gh.utils.convertISODatetoUnixDate(moment.utc(viewStartDate).add({'hours': -((new Date()).getTimezoneOffset() / 60)}).format('YYYY-MM-DD'));
     };
 
     /**
@@ -802,6 +798,10 @@ define(['gh.core', 'gh.constants', 'moment', 'clickover', 'gh.student.agenda-vie
         // Track the user opening the calendar
         $(document).on('shown.bs.tab', '#gh-calendar-view .gh-toolbar-primary a[data-toggle="tab"]', function(ev) {
             if ($(ev.target).attr('aria-controls') === 'gh-my-calendar-view') {
+                
+                // 16-Oct My Calendar view not refreshed when toggled between tabs. So below function explicitly invoked.
+                getUserEvents();
+
                 // Send a tracking event
                 gh.utils.trackEvent(['Tab', 'My Calendar']);
             }
@@ -862,7 +862,6 @@ define(['gh.core', 'gh.constants', 'moment', 'clickover', 'gh.student.agenda-vie
 
         // Navigate to today
         $(document).on('gh.calendar.navigateToToday', navigateToToday);
-
         // Refresh the calendar
         $(document).on('gh.calendar.refresh', refreshCalendar);
 

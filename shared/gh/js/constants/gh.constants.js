@@ -17,7 +17,7 @@ define(['exports'], function(exports) {
 
     var messaging = exports.messaging = {
         'default': {
-            'error': 'This is a Timetable error, if you still see this after reloading a Timetable in your browser please contact <a href="mailto:service-desk@ucs.cam.ac.uk" title="Contact support">support</a>'
+            'error': 'This is a Timetable error, if you still see this after reloading a Timetable in your browser please contact <a href="mailto:help@timetable.cam.ac.uk" title="Contact support">support</a>'
         }
     };
 
@@ -80,7 +80,6 @@ define(['exports'], function(exports) {
         'student-series-info-modal': '/shared/gh/partials/tenant-student/student-series-info-modal.html',
         'student-series-info': '/shared/gh/partials/tenant-student/student-series-info.html',
         'student-terms-and-conditions-modal': '/shared/gh/partials/tenant-student/student-terms-and-conditions-modal.html',
-        'student-video': '/shared/gh/partials/tenant-student/student-video.html',
 
         // GH shared views
         'admin-config-form': '/shared/gh/partials/admin-config-form.html',
@@ -117,8 +116,7 @@ define(['exports'], function(exports) {
     };
 
     var video = exports.video = {
-        'adminhowto': 'fmojPnWju54',
-        'studenthowto': 'n93qCflgABU'
+        'adminhowto': 'fmojPnWju54'
     };
 
     // The admin views

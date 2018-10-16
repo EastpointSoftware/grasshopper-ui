@@ -210,12 +210,9 @@ define(['exports', 'gh.constants', 'moment', 'moment-timezone'], function(export
         // Get the current term and return its name
         return _.find(terms, function(term) {
 
-            // Convert the dates from ISO to UNIX for easier calculation. Keep in mind that the configured
-            // start and end term dates are the official term start and end. Within the Timetable context
-            // however, a term starts 2 days later and ends 2 days earlier. Keep in mind that the configured
-            // term start/end doesn't have a time component, so we ensure the range ends at 23:59:59.
+            // Convert the dates from ISO to UNIX for easier calculation
             var startDate = convertISODatetoUnixDate(moment.tz(term.start, 'Europe/London').add({'days': 2}).toISOString());
-            var endDate = convertISODatetoUnixDate(moment.tz(term.end, 'Europe/London').subtract({'days': 2}).hours(23).minutes(59).seconds(59).toISOString());
+            var endDate = convertISODatetoUnixDate(moment.tz(term.end, 'Europe/London').subtract({'days': 2}).toISOString());
 
             // Return the term where the specified date is within the range
             if (isDateInRange(date, startDate, endDate)) {
@@ -250,7 +247,7 @@ define(['exports', 'gh.constants', 'moment', 'moment-timezone'], function(export
         });
 
         // Return the date of the first lecture day
-        return moment.tz(term.start, 'Europe/London').add({'days': 2}).format();
+        return moment(term.start).add({'days': 2, 'hours': -((new Date()).getTimezoneOffset() / 60)}).toISOString();
     };
 
     /**
@@ -265,8 +262,7 @@ define(['exports', 'gh.constants', 'moment', 'moment-timezone'], function(export
             throw new Error('A valid term should be provided');
         }
 
-        // Convert the dates from ISO to UNIX for easier calculation. Do NOT include the 23hrs,
-        // 59 minutes and 59 seconds of the last day of the term as this throws off the week calculation
+        // Convert the term start and end date to milliseconds
         var termStartDate = moment(term.start).add({'days': 2});
         var termEndDate = moment(term.end).subtract({'days': 2});
 
@@ -282,7 +278,7 @@ define(['exports', 'gh.constants', 'moment', 'moment-timezone'], function(export
      *
      * @param  {String}    termName      The name of the term to look for the date
      * @param  {Number}    weekNumber    The week of the term to look for the date
-     * @param  {Number}    dayNumber     The day of the week to look for the date
+     * @param  {Number}    dayNumber     The day of the week to look for the dae
      * @return {Date}                    Date object of the day in the term
      * @throws {Error}                   A parameter validation error
      */
@@ -306,30 +302,29 @@ define(['exports', 'gh.constants', 'moment', 'moment-timezone'], function(export
         _.each(terms, function(term) {
             if (term.name === termName) {
                 // Get the date on which the term starts
-                var termStartDate = moment(term.start, 'YYYY-MM-DD');
+                var termStartDate = new Date(term.start).getTime();
 
-                // Add 2 days as official term start dates occur 2 days earlier
-                termStartDate.add(2, 'days');
+                // Calculate the week offset in milliseconds
+                var weekOffset = (weekNumber - 1) * constants.time.PERIODS['week'];
+                // Calculate the start date of the week
+                var startOfWeekDate = new Date(termStartDate + weekOffset);
+                // Find out what day this day is
+                var startOfWeekDay = startOfWeekDate.getDay();
 
-                // termStartDate is now set to the first day of the first week of the term,
-                // add the correct number of weeks
-                var startOfWeek = termStartDate.add(weekNumber - 1, 'weeks');
-
-                // Find out what day this day is, in michaelmas term, this would be a Thursday (4)
-                var startOfWeekDay = startOfWeek.day();
-
-                // If the desired dayNumber is smaller than the day the week starts on,
+                // If the dayNumber is smaller than the day the week starts on,
                 // add a week to the weekOffset and substract the difference in days
                 if (dayNumber < startOfWeekDay) {
-                    dateByWeekAndDay = startOfWeek.add(1, 'week').subtract(startOfWeekDay - dayNumber, 'days');
+                    startOfWeekDate = startOfWeekDate.getTime() + constants.time.PERIODS['week'];
+                    // Remove x days from the week to get to the final date to return
+                    dateByWeekAndDay = startOfWeekDate - ((startOfWeekDay - dayNumber) * constants.time.PERIODS['day']);
 
                 // If the dayNumber is larger than the day, just add the difference
                 } else {
                     // Add x days to the week to get to the final date to return
-                    dateByWeekAndDay = startOfWeek.add(dayNumber - startOfWeekDay, 'days');
+                    dateByWeekAndDay = startOfWeekDate.getTime() + ((dayNumber - startOfWeekDay) * constants.time.PERIODS['day']);
                 }
 
-                dateByWeekAndDay = new Date(dateByWeekAndDay.valueOf());
+                dateByWeekAndDay = new Date(dateByWeekAndDay);
             }
         });
 
@@ -458,9 +453,7 @@ define(['exports', 'gh.constants', 'moment', 'moment-timezone'], function(export
                 range.start = convertUnixDatetoISODate(moment(currentViewDate).subtract(constants.time.PERIODS[currentView], 'milliseconds'));
 
                 // Calculate the end date
-                var end = moment(currentViewDate).add(constants.time.PERIODS[currentView], 'milliseconds');
-                end.hours(23).minutes(59).seconds(59);
-                range.end = convertUnixDatetoISODate(end);
+                range.end = convertUnixDatetoISODate(moment(currentViewDate).add(constants.time.PERIODS[currentView], 'milliseconds'));
 
                 // Return the range object
                 return callback(range);
@@ -642,10 +635,17 @@ define(['exports', 'gh.constants', 'moment', 'moment-timezone'], function(export
         var config = require('gh.core').config;
         // Get the correct terms associated to the current application
         var terms = config.terms[config.academicYear];
-        // Create an object that will group the events by the term label
-        // they fall into
+        // Create the object to return
         var eventsByTerm = {};
+
+        // Transform the start and end dates in the terms to proper Date objects so we can
+        // compare them to the start times of the events. Also add a key to the object to
+        // return in which we will add the triaged events
         _.each(terms, function(term) {
+            // Convert start and end strings into proper dates for comparison
+            term.start = new Date(term.start);
+            term.end = new Date(term.end);
+            // Add an Array to the object to return with the term label as the key
             eventsByTerm[term.label] = {
                 'start': term.start,
                 'end': term.end,
@@ -656,12 +656,14 @@ define(['exports', 'gh.constants', 'moment', 'moment-timezone'], function(export
         // Loop over the array of events to triage them
         _.each(events.results, function(ev) {
             var outOfTerm = true;
+            // Convert start date into proper date for comparison
+            var evStart = new Date(ev.start);
             // Loop over the terms and check whether the event start date
             // falls between the term start and end date. If it does, push
             // it into the term's Array
             _.each(terms, function(term) {
-                var eventStartDay = moment.tz(ev.start, 'Europe/London').format('YYYY-MM-DD');
-                if (eventStartDay >= term.start && eventStartDay <= term.end) {
+                var eventStartDay = convertISODatetoUnixDate(moment.tz(evStart, 'Europe/London').format('YYYY-MM-DD'));
+                if (evStart >= term.start && eventStartDay <= term.end) {
                     outOfTerm = false;
                     // The event takes place in this term, push it into the Array
                     eventsByTerm[term.label]['events'].push(ev);
