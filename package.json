@@ -1,16 +1,16 @@
 {
   "name": "grasshopper-ui",
   "description": "Grasshopper UI",
-  "version": "1.4.14",
+  "version": "1.4.16",
   "author": {
     "name": "Fronteer LTD"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/CUL-DigitalServices/grasshopper-ui.git"
+    "url": "git://github.com/fronteerio/grasshopper-ui.git"
   },
   "bugs": {
-    "url": "https://github.com/Cul-DigitalServices/grasshopper-ui/issues"
+    "url": "https://github.com/fronteerio/grasshopper-ui/issues"
   },
   "licenses": [
     {
